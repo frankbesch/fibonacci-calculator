@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <i class="fas fa-calculator"></i>
+                    Fibonacci Calculator
+                </h1>
+                <p class="subtitle">Explore the mathematical beauty of the Fibonacci sequence</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Single Number Calculator -->
+            <section class="calculator-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-hashtag"></i> Calculate Fibonacci Number</h2>
+                </div>
+                <div class="calculator-card">
+                    <div class="input-group">
+                        <label for="position">Position (n):</label>
+                        <input type="number" id="position" placeholder="Enter position (0-100)" min="0" max="100">
+                        <button id="calculateBtn" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Calculate
+                        </button>
+                    </div>
+                    <div class="method-selector">
+                        <label>Method:</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="method" value="iterative" checked>
+                                <span>Iterative</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="method" value="recursive">
+                                <span>Recursive</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="method" value="memoized">
+                                <span>Memoized</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="result" class="result-display"></div>
+                </div>
+            </section>
+
+            <!-- Sequence Generator -->
+            <section class="calculator-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list-ol"></i> Generate Sequence</h2>
+                </div>
+                <div class="calculator-card">
+                    <div class="input-group">
+                        <label for="sequenceLength">Number of terms:</label>
+                        <input type="number" id="sequenceLength" placeholder="Enter number of terms" min="1" max="50">
+                        <button id="generateSequenceBtn" class="btn btn-secondary">
+                            <i class="fas fa-list"></i> Generate
+                        </button>
+                    </div>
+                    <div id="sequenceResult" class="sequence-display"></div>
+                </div>
+            </section>
+
+            <!-- Fibonacci Checker -->
+            <section class="calculator-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-search"></i> Check if Number is Fibonacci</h2>
+                </div>
+                <div class="calculator-card">
+                    <div class="input-group">
+                        <label for="checkNumber">Number to check:</label>
+                        <input type="number" id="checkNumber" placeholder="Enter a number" min="0">
+                        <button id="checkBtn" class="btn btn-accent">
+                            <i class="fas fa-check"></i> Check
+                        </button>
+                    </div>
+                    <div id="checkResult" class="check-display"></div>
+                </div>
+            </section>
+
+            <!-- Golden Ratio Calculator -->
+            <section class="calculator-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-gem"></i> Golden Ratio Approximation</h2>
+                </div>
+                <div class="calculator-card">
+                    <div class="input-group">
+                        <label for="goldenPosition">Position for calculation:</label>
+                        <input type="number" id="goldenPosition" placeholder="Enter position (≥2)" min="2" max="100">
+                        <button id="goldenBtn" class="btn btn-golden">
+                            <i class="fas fa-divide"></i> Calculate Ratio
+                        </button>
+                    </div>
+                    <div id="goldenResult" class="golden-display"></div>
+                </div>
+            </section>
+
+            <!-- Performance Comparison -->
+            <section class="calculator-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-stopwatch"></i> Performance Comparison</h2>
+                </div>
+                <div class="calculator-card">
+                    <div class="input-group">
+                        <label for="perfPosition">Position for timing:</label>
+                        <input type="number" id="perfPosition" placeholder="Enter position (0-40)" min="0" max="40">
+                        <button id="perfBtn" class="btn btn-info">
+                            <i class="fas fa-clock"></i> Compare Methods
+                        </button>
+                    </div>
+                    <div id="perfResult" class="performance-display"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Fibonacci Calculator. Built with ❤️ and mathematics.</p>
+        </footer>
+    </div>
+
+    <script src="fibonacci.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

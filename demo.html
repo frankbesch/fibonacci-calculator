@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Calculator Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #6366f1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #6366f1;
+        }
+        .demo-section h3 {
+            color: #4f46e5;
+            margin-top: 0;
+        }
+        .result {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #3730a3;
+        }
+        .method {
+            display: inline-block;
+            background: #6366f1;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+        .sequence {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .sequence-item {
+            background: #6366f1;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .performance {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+        .performance .result {
+            background: #dcfce7;
+            color: #166534;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Fibonacci Calculator Demo</h1>
+        
+        <div class="demo-section">
+            <h3>📊 Single Number Calculations</h3>
+            <p>Calculate Fibonacci numbers using different methods:</p>
+            <div class="result" id="singleResults"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>📋 Sequence Generation</h3>
+            <p>Generate Fibonacci sequences:</p>
+            <div class="result" id="sequenceResults"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🔍 Fibonacci Number Checking</h3>
+            <p>Check if numbers are Fibonacci numbers:</p>
+            <div class="result" id="checkResults"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🌟 Golden Ratio Approximation</h3>
+            <p>Calculate golden ratio using Fibonacci numbers:</p>
+            <div class="result" id="goldenResults"></div>
+        </div>
+
+        <div class="demo-section performance">
+            <h3>⚡ Performance Comparison</h3>
+            <p>Compare execution times of different methods:</p>
+            <div class="result" id="perfResults"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🚀 How to Use</h3>
+            <p><strong>Web Application:</strong> Open <code>index.html</code> in your browser for the full interactive experience.</p>
+            <p><strong>Command Line:</strong> Run <code>node cli.js</code> for the CLI interface.</p>
+            <p><strong>Tests:</strong> Run <code>node test.js</code> to see comprehensive tests.</p>
+        </div>
+    </div>
+
+    <script src="fibonacci.js"></script>
+    <script>
+        // Demo calculations
+        function runDemo() {
+            // Single number calculations
+            const singleResults = document.getElementById('singleResults');
+            const methods = ['iterative', 'recursive', 'memoized'];
+            let singleHTML = '';
+            
+            for (let i = 0; i <= 10; i++) {
+                const result = FibonacciCalculator.iterative(i);
+                singleHTML += `<span class="method">F(${i})</span> = ${result.toLocaleString()}<br>`;
+            }
+            singleResults.innerHTML = singleHTML;
+
+            // Sequence generation
+            const sequenceResults = document.getElementById('sequenceResults');
+            const sequence = FibonacciCalculator.sequence(15);
+            const sequenceHTML = sequence.map((num, index) => 
+                `<span class="sequence-item">F(${index}) = ${num}</span>`
+            ).join('');
+            sequenceResults.innerHTML = `<div class="sequence">${sequenceHTML}</div>`;
+
+            // Fibonacci checking
+            const checkResults = document.getElementById('checkResults');
+            const testNumbers = [8, 13, 21, 22, 34, 35];
+            let checkHTML = '';
+            testNumbers.forEach(num => {
+                const isFib = FibonacciCalculator.isFibonacci(num);
+                const position = isFib ? FibonacciCalculator.findPosition(num) : null;
+                const status = isFib ? '✅' : '❌';
+                const posText = isFib ? ` (Position: F(${position}))` : '';
+                checkHTML += `${status} ${num}${posText}<br>`;
+            });
+            checkResults.innerHTML = checkHTML;
+
+            // Golden ratio calculation
+            const goldenResults = document.getElementById('goldenResults');
+            const positions = [10, 20, 30];
+            let goldenHTML = '';
+            const actualGoldenRatio = (1 + Math.sqrt(5)) / 2;
+            positions.forEach(pos => {
+                const ratio = FibonacciCalculator.goldenRatio(pos);
+                const accuracy = ((1 - Math.abs(ratio - actualGoldenRatio) / actualGoldenRatio) * 100).toFixed(2);
+                goldenHTML += `F(${pos})/F(${pos-1}) = ${ratio.toFixed(10)} (${accuracy}% accurate)<br>`;
+            });
+            goldenHTML += `<br>Actual φ = ${actualGoldenRatio.toFixed(10)}`;
+            goldenResults.innerHTML = goldenHTML;
+
+            // Performance comparison
+            const perfResults = document.getElementById('perfResults');
+            const testPosition = 30;
+            let perfHTML = `Performance comparison for F(${testPosition}):<br><br>`;
+            
+            methods.forEach(method => {
+                const startTime = performance.now();
+                let result;
+                try {
+                    switch (method) {
+                        case 'iterative':
+                            result = FibonacciCalculator.iterative(testPosition);
+                            break;
+                        case 'recursive':
+                            result = FibonacciCalculator.recursive(testPosition);
+                            break;
+                        case 'memoized':
+                            result = FibonacciCalculator.memoized(testPosition);
+                            break;
+                    }
+                    const endTime = performance.now();
+                    const executionTime = (endTime - startTime).toFixed(2);
+                    perfHTML += `<span class="method">${method}</span>: ${executionTime}ms<br>`;
+                } catch (error) {
+                    perfHTML += `<span class="method">${method}</span>: Error<br>`;
+                }
+            });
+            perfResults.innerHTML = perfHTML;
+        }
+
+        // Run demo when page loads
+        runDemo();
+    </script>
+</body>
+</html>

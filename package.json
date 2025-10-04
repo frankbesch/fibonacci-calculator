@@ -1,0 +1,41 @@
+{
+  "name": "fibonacci-calculator",
+  "version": "1.0.0",
+  "description": "A comprehensive Fibonacci sequence calculator with web interface, CLI, and multiple calculation methods",
+  "main": "fibonacci.js",
+  "scripts": {
+    "start": "node cli.js",
+    "test": "node test.js",
+    "web": "open index.html",
+    "cli": "node cli.js"
+  },
+  "keywords": [
+    "fibonacci",
+    "mathematics",
+    "calculator",
+    "sequence",
+    "golden-ratio",
+    "cli",
+    "web-app",
+    "algorithm",
+    "recursion",
+    "iteration",
+    "memoization"
+  ],
+  "author": "Fibonacci Calculator Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bin": {
+    "fibonacci": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/fibonacci-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/example/fibonacci-calculator/issues"
+  },
+  "homepage": "https://github.com/example/fibonacci-calculator#readme"
+}
