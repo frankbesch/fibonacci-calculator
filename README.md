@@ -126,8 +126,33 @@ fibonacci-app/
 
 ### Algorithm Analysis
 - **Iterative**: O(n) time, O(1) space - Best for large numbers
-- **Recursive**: O(2^n) time, O(n) space - Educational purposes
+- **Recursive**: O(2^n) time, O(n) space - Educational purposes ⚠️ **Limited to n ≤ 30**
 - **Memorized**: O(n) time, O(n) space - Balanced performance
+
+### ⚠️ Performance Limitation: Recursive Algorithm
+
+The recursive implementation is **intentionally limited to n ≤ 30** to prevent browser freezing and ensure responsive user experience.
+
+**Why the limitation exists:**
+
+The recursive algorithm has **exponential time complexity O(2^n)**, which means the number of calculations doubles with each increment:
+
+| Position | Function Calls | Approximate Time |
+|----------|---------------|-----------------|
+| n = 20 | ~21,891 | ~2ms |
+| n = 30 | ~2,692,537 | ~165ms ✅ Safe |
+| n = 31 | ~4,356,617 | ~270ms ⚠️ Limit |
+| n = 35 | ~29,860,703 | ~3 seconds ❌ Slow |
+| n = 40 | ~331,160,281 | ~40 seconds ❌ Page locks |
+
+**Why it's inefficient:** The recursive method recalculates the same values thousands of times. For example, when calculating F(40), it computes F(2) over **63 million times**!
+
+**Recommended alternatives:**
+- **For n > 30**: Use Iterative (fastest) or Memorized (cached results)
+- **For learning recursion**: Keep n ≤ 30
+- **For production**: Always use Iterative for n > 40
+
+The Iterative and Memorized methods can easily handle **n = 93** (JavaScript's safe integer limit) in under 1ms.
 
 ## 🧮 Core Functions
 
@@ -139,7 +164,8 @@ The `FibonacciCalculator` class provides:
 
 ### `recursive(n)`
 - **Time**: O(2^n) | **Space**: O(n)
-- Best for small numbers and educational purposes
+- Best for small numbers (n ≤ 30) and educational purposes
+- ⚠️ **Limited to n ≤ 30** in web interface to prevent performance issues
 
 ### `memorized(n, memo = {})`
 - **Time**: O(n) | **Space**: O(n)
@@ -178,8 +204,11 @@ node test.js
 | Position | Recommended Method | Reason |
 |----------|-------------------|---------|
 | F₀ - F₂₀ | Any | All methods perform well |
-| F₂₁ - F₄₀ | Iterative or Memorized | Recursive becomes slow |
+| F₂₁ - F₃₀ | Iterative or Memorized | Recursive starts slowing down |
+| F₃₁ - F₄₀ | Iterative or Memorized | Recursive disabled (too slow) |
 | F₄₁ - F₉₃ | Iterative only | Best performance |
+
+**Note:** The web interface automatically limits the Recursive method to n ≤ 30. For positions above 30, you'll see "N/A" with the note "Limited to n ≤ 30".
 
 ## 🐳 Docker & CI/CD
 

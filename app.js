@@ -19,10 +19,10 @@ class FibonacciApp {
     this.resultDisplay = document.getElementById('result');
     this.methodRadios = document.querySelectorAll('input[name="method"]');
 
-    // Sequence generator
-    this.sequenceLengthInput = document.getElementById('sequenceLength');
-    this.generateSequenceBtn = document.getElementById('generateSequenceBtn');
-    this.sequenceResult = document.getElementById('sequenceResult');
+    // Sequence generator - REMOVED (elements no longer in HTML)
+    // this.sequenceLengthInput = document.getElementById('sequenceLength');
+    // this.generateSequenceBtn = document.getElementById('generateSequenceBtn');
+    // this.sequenceResult = document.getElementById('sequenceResult');
 
     // Fibonacci checker
     this.checkNumberInput = document.getElementById('checkNumber');
@@ -31,14 +31,14 @@ class FibonacciApp {
     
     // Check button will be set up in setupCheckButton()
 
-    // Graph
-    this.graphTermsInput = document.getElementById('graphTerms');
-    this.graphBtn = document.getElementById('graphBtn');
-    this.graphCanvas = document.getElementById('fibChart');
+    // Graph - REMOVED (elements no longer in HTML)
+    // this.graphTermsInput = document.getElementById('graphTerms');
+    // this.graphBtn = document.getElementById('graphBtn');
+    // this.graphCanvas = document.getElementById('fibChart');
     this.terminalEl = null;
 
     // Performance comparison
-    this.perfPositionInput = document.getElementById('perfPosition');
+    this.perfPositionInput = document.getElementById('perfPosition'); // May not exist (removed from HTML)
     this.perfBtn = document.getElementById('perfBtn');
     this.perfResult = document.getElementById('perfResult');
   }
@@ -60,14 +60,18 @@ class FibonacciApp {
     const debouncedPerfUpdate = this.debounce((n) => {
       requestAnimationFrame(() => {
         try {
+          // Always update the position value immediately
+          this.updateSliderValue('perfPositionValue', n);
+          
           if (n <= 93) { 
-            this.comparePerformance(); 
+            // Run performance comparison asynchronously to prevent blocking
+            setTimeout(() => this.comparePerformance(), 0);
           }
         } catch (e) {
           console.warn('Performance update error:', e);
         }
       });
-    }, 300); // Optimized for more expensive operations
+    }, 300); // Reduced delay for better responsiveness
     
     this.positionInput.addEventListener('input', () => {
       const n = parseInt(this.positionInput.value);
@@ -93,30 +97,29 @@ class FibonacciApp {
           this.handleCalculateError(error);
         }
         
-        // Always update GPU and graph
-        this.updateSliderValue('perfPositionValue', n);
+        // Always update graph and trigger GPU performance update
         debouncedGraphUpdate(n);
         debouncedPerfUpdate(n);
       }
     });
     this.positionInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') console.log('Enter pressed on slider'); });
 
-    // Sequence generation
-    this.generateSequenceBtn.addEventListener('click', () => this.generateSequence());
-    this.sequenceLengthInput.addEventListener('input', this.debounce(() => {
-      requestAnimationFrame(() => {
-        const len = parseInt(this.sequenceLengthInput.value);
-        if (!isNaN(len) && len > 0) {
-          console.log('Sequence length input:', len);
-          this.updateSliderValue('sequenceValue', len);
-          this.updateGraphFromData(FibonacciCalculator.sequence(Math.min(50, len)));
-          if (len <= 40) { 
-            // Don't auto-trigger performance comparison on sequence input
-          }
-        }
-      });
-    }, 200)); // Optimized for smooth performance
-    this.sequenceLengthInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.generateSequence(); });
+    // Sequence generation - REMOVED (elements no longer in HTML)
+    // this.generateSequenceBtn.addEventListener('click', () => this.generateSequence());
+    // this.sequenceLengthInput.addEventListener('input', this.debounce(() => {
+    //   requestAnimationFrame(() => {
+    //     const len = parseInt(this.sequenceLengthInput.value);
+    //     if (!isNaN(len) && len > 0) {
+    //       console.log('Sequence length input:', len);
+    //       this.updateSliderValue('sequenceValue', len);
+    //       this.updateGraphFromData(FibonacciCalculator.sequence(Math.min(50, len)));
+    //       if (len <= 40) { 
+    //         // Don't auto-trigger performance comparison on sequence input
+    //       }
+    //     }
+    //   });
+    // }, 200)); // Optimized for smooth performance
+    // this.sequenceLengthInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.generateSequence(); });
 
     // Fibonacci checker - COMPLETELY REBUILT
     this.setupCheckButton();
@@ -178,11 +181,11 @@ class FibonacciApp {
     }, 200)); // Optimized for smooth performance
     this.checkNumberInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.checkFibonacci(); });
 
-    // Graph
-    this.graphBtn.addEventListener('click', () => this.drawGraph());
-    this.graphTermsInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') this.drawGraph();
-    });
+    // Graph - REMOVED (elements no longer in HTML)
+    // this.graphBtn.addEventListener('click', () => this.drawGraph());
+    // this.graphTermsInput.addEventListener('keypress', (e) => {
+    //   if (e.key === 'Enter') this.drawGraph();
+    // });
 
     // Performance comparison
     this.perfBtn.addEventListener('click', () => this.comparePerformance());
@@ -987,6 +990,10 @@ class FibonacciApp {
               result = FibonacciCalculator.iterative(position);
               break;
             case 'recursive':
+              // Skip recursive for position > 30 to prevent page locking
+              if (position > 30) {
+                throw new Error('N/A (limited to n ≤ 30)');
+              }
               result = FibonacciCalculator.recursive(position);
               break;
             case 'memorized':
@@ -1095,7 +1102,8 @@ class FibonacciApp {
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1rem; width: 100%;">
                 <div style="text-align: center;">
                   <div style="color: #2d3748; font-size: 0.9em; font-weight: 600; margin-bottom: 0.5rem;">CPU TIME</div>
-                  <div style="color: #e53e3e; font-weight: 700; font-size: 1.3em;">${item.time === 'Error' ? 'Error' : item.time + 'ms'}</div>
+                  <div style="color: ${item.time === 'Error' ? '#999' : '#e53e3e'}; font-weight: 700; font-size: 1.3em;">${item.time === 'Error' ? 'N/A' : item.time + 'ms'}</div>
+                  ${item.time === 'Error' && item.method === 'Recursive' ? '<div style="color: #999; font-size: 0.7em; margin-top: 0.25rem;">Limited to n ≤ 30</div>' : ''}
                 </div>
                 <div style="text-align: center;">
                   <div style="color: #2d3748; font-size: 0.9em; font-weight: 600; margin-bottom: 0.5rem;">GPU TIME</div>
