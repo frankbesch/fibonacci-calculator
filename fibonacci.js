@@ -6,6 +6,10 @@
 class FibonacciCalculator {
   /**
    * Calculate Fibonacci number using iterative approach
+   * Time Complexity: O(n) - Linear iteration from 0 to n
+   * Space Complexity: O(1) - Only two variables used
+   * Best for: Large numbers (n > 40), performance-critical applications
+   * 
    * @param {number} n - Position in Fibonacci sequence
    * @returns {number} Fibonacci number at position n
    */
@@ -24,6 +28,10 @@ class FibonacciCalculator {
 
   /**
    * Calculate Fibonacci number using recursive approach
+   * Time Complexity: O(2^n) - Exponential due to repeated calculations
+   * Space Complexity: O(n) - Call stack depth
+   * Best for: Small numbers (n ≤ 20), educational purposes, understanding recursion
+   * 
    * @param {number} n - Position in Fibonacci sequence
    * @returns {number} Fibonacci number at position n
    */
@@ -34,17 +42,21 @@ class FibonacciCalculator {
   }
 
   /**
-   * Calculate Fibonacci number using memoized recursive approach
+   * Calculate Fibonacci number using memorized recursive approach
+   * Time Complexity: O(n) - Each value calculated once and cached
+   * Space Complexity: O(n) - Memoization cache + call stack
+   * Best for: Medium numbers (20 < n ≤ 40), balanced performance
+   * 
    * @param {number} n - Position in Fibonacci sequence
    * @param {Object} memo - Memoization cache (optional)
    * @returns {number} Fibonacci number at position n
    */
-  static memoized(n, memo = {}) {
+  static memorized(n, memo = {}) {
     if (n < 0) throw new Error('Fibonacci sequence is not defined for negative numbers');
     if (n in memo) return memo[n];
     if (n <= 1) return n;
     
-    memo[n] = this.memoized(n - 1, memo) + this.memoized(n - 2, memo);
+    memo[n] = this.memorized(n - 1, memo) + this.memorized(n - 2, memo);
     return memo[n];
   }
 
@@ -68,6 +80,9 @@ class FibonacciCalculator {
 
   /**
    * Check if a number is a Fibonacci number
+   * Uses mathematical property: A number n is Fibonacci if and only if
+   * one of (5n² + 4) or (5n² - 4) is a perfect square
+   * 
    * @param {number} num - Number to check
    * @returns {boolean} True if the number is in Fibonacci sequence
    */
@@ -110,17 +125,7 @@ class FibonacciCalculator {
     return null;
   }
 
-  /**
-   * Calculate the golden ratio approximation using Fibonacci numbers
-   * @param {number} n - Position to use for calculation
-   * @returns {number} Golden ratio approximation
-   */
-  static goldenRatio(n) {
-    if (n < 2) throw new Error('Need at least 2 Fibonacci numbers to calculate golden ratio');
-    const fib1 = this.iterative(n);
-    const fib2 = this.iterative(n - 1);
-    return fib1 / fib2;
-  }
+  // Golden ratio calculation removed as per UI simplification
 }
 
 // Export for Node.js environments

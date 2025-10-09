@@ -1,6 +1,6 @@
 {
   "name": "fibonacci-calculator",
-  "version": "1.0.0",
+  "version": "2025.09.10",
   "description": "A comprehensive Fibonacci sequence calculator with web interface, CLI, and multiple calculation methods",
   "main": "fibonacci.js",
   "scripts": {

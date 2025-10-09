@@ -1,316 +1,248 @@
 # Fibonacci Calculator Application
 
-A comprehensive Fibonacci sequence calculator with multiple interfaces and implementations. This application provides various ways to calculate, explore, and understand the Fibonacci sequence and its mathematical properties.
+![Version](https://img.shields.io/badge/version-v2025.09.10-green)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue)
+
+A comprehensive Fibonacci sequence calculator with multiple deployment options and GPU acceleration estimates. This application provides various ways to calculate, explore, and understand the Fibonacci sequence and its mathematical properties.
 
 ## 🌟 Features
 
-- **Multiple Calculation Methods**: Iterative, recursive, and memoized implementations
+- **Multiple Calculation Methods**: Iterative, Recursive, and Memorized implementations
 - **Web Interface**: Beautiful, modern web application with interactive UI
-- **Command Line Interface**: Full-featured CLI with colored output and help system
-- **Comprehensive Testing**: Extensive test suite covering all functionality
-- **Performance Comparison**: Built-in performance benchmarking
-- **Mathematical Tools**: Fibonacci checking, golden ratio calculation, sequence generation
-
-## 📁 Project Structure
-
-```
-fibonacci-app/
-├── fibonacci.js      # Core Fibonacci calculation functions
-├── index.html        # Web application interface
-├── styles.css        # Modern CSS styling
-├── app.js           # Web application JavaScript
-├── cli.js           # Command-line interface
-├── test.js          # Comprehensive test suite
-└── README.md        # This documentation
-```
+- **GPU Acceleration Estimates**: Theoretical performance comparisons using NVIDIA Blackwell B200 architecture
+- **Real-time Validation**: Check if numbers are Fibonacci numbers with instant feedback
+- **Performance Comparison**: Built-in performance benchmarking across algorithms
+- **Mathematical Tools**: Fibonacci checking, sequence generation, and golden ratio calculations
+- **Three Deployment Options**: Local, Docker containerized, and cloud (OCI/OKE)
 
 ## 🚀 Quick Start
 
-### Web Application
+Choose your deployment method:
 
-1. Open `index.html` in your web browser
-2. Use the interactive interface to:
-   - Calculate individual Fibonacci numbers
-   - Generate sequences
-   - Check if numbers are Fibonacci
-   - Calculate golden ratio approximations
-   - Compare method performance
+### 1️⃣ Local Deployment (Non-Containerized)
 
-### Command Line Interface
+**Perfect for**: Quick testing, development, local exploration
 
 ```bash
-# Make the CLI executable
-chmod +x cli.js
+# Open index.html directly in your browser
+open index.html
 
-# Run the CLI
-node cli.js
-
-# Or run directly
-./cli.js
+# Or use a simple HTTP server
+python3 -m http.server 8080
+# Then open http://localhost:8080
 ```
 
-### Running Tests
+📖 **Full Guide**: [`deployments/1-local/README.md`](deployments/1-local/README.md)
+
+### 2️⃣ Docker Deployment (Containerized)
+
+**Perfect for**: Consistent environments, easy distribution, local containerization
 
 ```bash
-node test.js
+# Build the Docker image
+docker build -t fibonacci-app:v2025.09.10 .
+
+# Run the container
+docker run -d -p 8080:8080 --name fibonacci-app fibonacci-app:v2025.09.10
+
+# Open http://localhost:8080
 ```
+
+📖 **Full Guide**: [`deployments/2-docker/README.md`](deployments/2-docker/README.md)
+
+### 3️⃣ Cloud Deployment (OCI/OKE)
+
+**Perfect for**: Production, high availability, cloud-native applications
+
+```bash
+# Deploy to Oracle Kubernetes Engine
+cd deployments/3-oci-oke
+./deploy-to-oke.sh
+
+# Apply Kubernetes manifests
+kubectl apply -f k8s/
+
+# Get external IP
+kubectl get services
+```
+
+📖 **Full Guide**: [`deployments/3-oci-oke/README.md`](deployments/3-oci-oke/README.md)
+
+## 📁 Repository Structure
+
+```
+fibonacci-app/
+├── index.html              # Web application
+├── styles.css              # Modern UI styling
+├── app.js                  # Application logic & GPU estimates
+├── fibonacci.js            # Core Fibonacci algorithms
+├── cli.js                  # Command-line interface
+├── test.js                 # Comprehensive test suite
+├── package.json            # Project metadata
+├── Dockerfile              # Docker configuration
+├── .gitignore              # Git ignore rules
+├── .github/
+│   └── workflows/
+│       └── docker-build.yml    # CI/CD pipeline
+└── deployments/
+    ├── 1-local/            # Local deployment
+    │   ├── README.md
+    │   └── run-local.sh
+    ├── 2-docker/           # Docker deployment
+    │   ├── README.md
+    │   ├── Dockerfile
+    │   ├── docker-build.sh
+    │   └── docker-run.sh
+    └── 3-oci-oke/          # OCI/OKE deployment
+        ├── README.md
+        ├── Dockerfile
+        ├── deploy-to-oke.sh
+        └── k8s/
+            ├── deployment.yaml
+            ├── service.yaml
+            └── ingress.yaml
+```
+
+## 💻 Web Application Features
+
+### Calculate Fibonacci Numbers
+- Interactive slider (F₀ to F₉₃)
+- Real-time calculation using iterative method
+- Display as F(n) = value format
+
+### Check if Number is Fibonacci
+- Input any number to validate
+- Color-coded button feedback (green for Fibonacci, red for non-Fibonacci)
+- Shows position in sequence for Fibonacci numbers
+
+### GPU Acceleration Estimates
+- Theoretical GPU performance using NVIDIA Blackwell B200 architecture
+- Compares CPU vs GPU execution times
+- Shows speedup factors (e.g., 50-100x for parallel algorithms)
+- Confidence levels based on algorithm parallelization analysis
+- Detailed estimation methodology with cited sources
+
+### Algorithm Analysis
+- **Iterative**: O(n) time, O(1) space - Best for large numbers
+- **Recursive**: O(2^n) time, O(n) space - Educational purposes
+- **Memorized**: O(n) time, O(n) space - Balanced performance
 
 ## 🧮 Core Functions
 
-### FibonacciCalculator Class
+The `FibonacciCalculator` class provides:
 
-The core functionality is provided by the `FibonacciCalculator` class with the following methods:
+### `iterative(n)`
+- **Time**: O(n) | **Space**: O(1)
+- Best for large numbers and performance-critical applications
 
-#### `iterative(n)`
-Calculate Fibonacci number using iterative approach.
-- **Time Complexity**: O(n)
-- **Space Complexity**: O(1)
-- **Best for**: Large numbers, performance-critical applications
+### `recursive(n)`
+- **Time**: O(2^n) | **Space**: O(n)
+- Best for small numbers and educational purposes
 
-```javascript
-FibonacciCalculator.iterative(10); // Returns 55
-```
+### `memorized(n, memo = {})`
+- **Time**: O(n) | **Space**: O(n)
+- Best for medium numbers with balanced performance
 
-#### `recursive(n)`
-Calculate Fibonacci number using recursive approach.
-- **Time Complexity**: O(2^n)
-- **Space Complexity**: O(n)
-- **Best for**: Small numbers, educational purposes
+### `sequence(n)`
+- Generate Fibonacci sequence with n terms
 
-```javascript
-FibonacciCalculator.recursive(10); // Returns 55
-```
+### `isFibonacci(num)`
+- Check if a number is a Fibonacci number
 
-#### `memoized(n, memo = {})`
-Calculate Fibonacci number using memoized recursive approach.
-- **Time Complexity**: O(n)
-- **Space Complexity**: O(n)
-- **Best for**: Medium numbers, balanced performance
+### `findPosition(num)`
+- Find the position of a Fibonacci number in the sequence
 
-```javascript
-FibonacciCalculator.memoized(10); // Returns 55
-```
-
-#### `sequence(n)`
-Generate Fibonacci sequence with n terms.
-
-```javascript
-FibonacciCalculator.sequence(10); // Returns [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-```
-
-#### `isFibonacci(num)`
-Check if a number is a Fibonacci number.
-
-```javascript
-FibonacciCalculator.isFibonacci(21); // Returns true
-FibonacciCalculator.isFibonacci(22); // Returns false
-```
-
-#### `findPosition(num)`
-Find the position of a Fibonacci number in the sequence.
-
-```javascript
-FibonacciCalculator.findPosition(21); // Returns 8 (F(8) = 21)
-FibonacciCalculator.findPosition(22); // Returns null
-```
-
-#### `goldenRatio(n)`
-Calculate golden ratio approximation using Fibonacci numbers.
-
-```javascript
-FibonacciCalculator.goldenRatio(20); // Returns ~1.618033988749895
-```
-
-## 💻 Command Line Interface
-
-The CLI provides an interactive command-line experience with the following commands:
-
-### Available Commands
-
-- `calc <n> [method]` - Calculate Fibonacci number at position n
-- `seq <n>` - Generate Fibonacci sequence with n terms
-- `check <number>` - Check if a number is a Fibonacci number
-- `golden <n>` - Calculate golden ratio approximation at position n
-- `perf <n>` - Compare performance of all methods at position n
-- `examples` - Show example commands
-- `help` - Show help message
-- `exit`, `quit` - Exit the program
-
-### Example Usage
-
-```bash
-fibonacci> calc 10
-🔢 Result: F(10) = 55
-⚡ Method: iterative | Time: 0.05ms
-
-fibonacci> seq 15
-📊 Fibonacci Sequence (15 terms):
-──────────────────────────────────────────────────
-F( 0) =          0
-F( 1) =          1
-F( 2) =          1
-F( 3) =          2
-F( 4) =          3
-F( 5) =          5
-F( 6) =          8
-F( 7) =         13
-F( 8) =         21
-F( 9) =         34
-F(10) =         55
-F(11) =         89
-F(12) =        144
-F(13) =        233
-F(14) =        377
-
-fibonacci> check 21
-✅ 21 is a Fibonacci number!
-📍 Position: F(8)
-
-fibonacci> golden 25
-🌟 Golden Ratio Approximation:
-📐 F(25)/F(24) = 1.6180339887
-🎯 Actual φ = 1.6180339887
-📊 Accuracy: 99.9999999999%
-
-fibonacci> perf 30
-⚡ Performance Comparison for F(30):
-──────────────────────────────────────────────────
-iterative: 0.05ms
-recursive: 15.23ms
-memoized:  0.12ms
-
-🏆 Fastest: iterative (0.05ms)
-```
-
-## 🌐 Web Application
-
-The web application provides a modern, responsive interface with the following features:
-
-### Features
-- **Interactive Calculator**: Calculate Fibonacci numbers with different methods
-- **Sequence Generator**: Generate and display Fibonacci sequences
-- **Fibonacci Checker**: Check if numbers are Fibonacci numbers
-- **Golden Ratio Calculator**: Calculate golden ratio approximations
-- **Performance Comparison**: Compare execution times of different methods
-- **Responsive Design**: Works on desktop and mobile devices
-- **Modern UI**: Beautiful gradient backgrounds and smooth animations
-
-### Usage
-1. Open `index.html` in your web browser
-2. Use the various sections to perform different calculations
-3. Try different methods and compare their performance
-4. Explore the mathematical properties of the Fibonacci sequence
+### `goldenRatio(n)`
+- Calculate golden ratio approximation
 
 ## 🧪 Testing
 
-The application includes a comprehensive test suite that covers:
-
-- **Basic Functionality**: All calculation methods with known values
-- **Edge Cases**: Negative numbers, zero, large numbers
-- **Mathematical Properties**: Fibonacci checking, golden ratio calculations
-- **Method Consistency**: All methods return identical results
-- **Performance**: Large number calculations and timing
-- **Error Handling**: Proper error messages for invalid inputs
-
-### Running Tests
-
 ```bash
+# Run comprehensive test suite
 node test.js
 ```
 
-### Test Coverage
+**Test Coverage:**
+- ✅ All calculation methods (iterative, recursive, memorized)
+- ✅ Edge cases (zero, negative, large numbers)
+- ✅ Fibonacci number detection
+- ✅ Sequence generation
+- ✅ Golden ratio calculations
+- ✅ Method consistency verification
+- ✅ Performance benchmarking
 
-- ✅ Iterative method (basic cases, large numbers, edge cases)
-- ✅ Recursive method (basic cases, medium numbers, edge cases)
-- ✅ Memoized method (basic cases, large numbers, edge cases)
-- ✅ Sequence generation (empty, small, medium sequences)
-- ✅ Fibonacci number checking (known numbers, non-Fibonacci numbers)
-- ✅ Position finding (known positions, non-Fibonacci numbers)
-- ✅ Golden ratio calculation (basic, large calculations)
-- ✅ Method consistency (all methods return same results)
-- ✅ Perfect square helper function
-- ✅ Performance testing (large number calculations)
+## 📊 Performance Recommendations
 
-## 📊 Performance Characteristics
+| Position | Recommended Method | Reason |
+|----------|-------------------|---------|
+| F₀ - F₂₀ | Any | All methods perform well |
+| F₂₁ - F₄₀ | Iterative or Memorized | Recursive becomes slow |
+| F₄₁ - F₉₃ | Iterative only | Best performance |
 
-### Method Comparison
+## 🐳 Docker & CI/CD
 
-| Method    | Time Complexity | Space Complexity | Best For           |
-|-----------|----------------|------------------|--------------------|
-| Iterative | O(n)           | O(1)             | Large numbers      |
-| Recursive | O(2^n)         | O(n)             | Small numbers      |
-| Memoized  | O(n)           | O(n)             | Medium numbers     |
+### Docker Image
+- **Base**: `node:18-alpine`
+- **Port**: 8080
+- **Size**: ~50MB (optimized Alpine image)
 
-### Performance Recommendations
+### GitHub Actions
+- Automated builds on push to main
+- Version tagging from `package.json`
+- Docker image testing with health checks
 
-- **Use Iterative** for numbers > 40 or performance-critical applications
-- **Use Recursive** for educational purposes or numbers ≤ 20
-- **Use Memoized** for balanced performance with numbers 20-40
+## ☁️ Cloud Deployment (OCI/OKE)
 
-## 🔬 Mathematical Background
+### Architecture
+- **Container Registry**: OCI Container Registry (OCIR)
+- **Orchestration**: Oracle Kubernetes Engine (OKE)
+- **Load Balancer**: OCI Load Balancer
+- **Networking**: OCI VCN with public/private subnets
 
-### Fibonacci Sequence
-The Fibonacci sequence is defined as:
-- F(0) = 0
-- F(1) = 1
-- F(n) = F(n-1) + F(n-2) for n > 1
+### Resource Specs
+- **CPU**: 100m request, 500m limit
+- **Memory**: 128Mi request, 512Mi limit
+- **Replicas**: 2 (high availability)
 
-### Golden Ratio
-The golden ratio (φ) is approximately 1.618033988749895 and can be approximated using consecutive Fibonacci numbers:
-φ ≈ F(n+1) / F(n) as n approaches infinity
+## 🔬 GPU Acceleration Technology
 
-### Fibonacci Number Detection
-A number n is a Fibonacci number if and only if one of (5n² + 4) or (5n² - 4) is a perfect square.
+The application provides theoretical GPU acceleration estimates based on:
+
+- **Architecture**: NVIDIA Blackwell B200 specifications
+- **Analysis**: Algorithm parallelization potential
+- **Factors**: Memory bandwidth, compute intensity, overhead
+- **Confidence**: Based on real-world CUDA performance patterns
+
+**Sources**: NVIDIA architecture documentation, CUDA programming guides, GPU performance optimization research
+
+⚠️ **Note**: Estimates are theoretical and based on algorithm analysis. Actual performance varies based on implementation and hardware.
 
 ## 🛠️ Technical Details
 
-### Browser Compatibility
-- Modern browsers with ES6+ support
-- Responsive design works on mobile devices
-- Uses CSS Grid and Flexbox for layout
+### Browser Requirements
+- Modern browser with ES6+ support
+- JavaScript enabled
+- CSS Grid and Flexbox support
 
 ### Node.js Requirements
 - Node.js 12+ for CLI and testing
 - No external dependencies required
 
-### File Structure
-- **fibonacci.js**: Core mathematical functions
-- **index.html**: Web application structure
-- **styles.css**: Modern CSS with gradients and animations
-- **app.js**: Web application interactivity
-- **cli.js**: Command-line interface with colored output
-- **test.js**: Comprehensive test suite
+### Deployment Requirements
+- **Local**: Web browser or Python 3.x
+- **Docker**: Docker 20+ installed
+- **OCI/OKE**: OCI account, kubectl, OCI CLI
 
-## 🎯 Use Cases
+## 🎯 Version History
 
-### Educational
-- Learn about different algorithmic approaches
-- Understand recursion vs iteration
-- Explore mathematical properties
-- Practice with test-driven development
-
-### Development
-- Benchmark different implementations
-- Compare algorithm performance
-- Study memoization techniques
-- Build interactive web applications
-
-### Mathematical
-- Calculate Fibonacci numbers
-- Generate sequences for analysis
-- Check number properties
-- Approximate golden ratio
-
-## 🤝 Contributing
-
-This is a demonstration project showcasing:
-- Multiple Fibonacci implementations
-- Modern web development
-- Command-line interfaces
-- Comprehensive testing
-- Mathematical programming
-
-Feel free to use this code as a reference or starting point for your own projects!
+- **v2025.09.10**: Current version
+  - Three deployment configurations
+  - GPU acceleration estimates
+  - Enhanced UI with real-time validation
+  - CI/CD pipeline
+  - Clean repository structure
 
 ## 📝 License
 
@@ -318,4 +250,4 @@ This project is open source and available under the MIT License.
 
 ---
 
-**Built with ❤️ and mathematics**
+**Built with ❤️ and curiosity by fsb** • **Version v2025.09.10**

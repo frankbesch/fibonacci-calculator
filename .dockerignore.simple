@@ -1,0 +1,20 @@
+# Ignore unnecessary files for Docker build
+node_modules/
+.git/
+*.log
+*.md
+Dockerfile
+Dockerfile.simple
+.dockerignore
+.dockerignore.simple
+k8s/
+helm/
+scripts/
+*.sh
+test.js
+cli.js
+demo.html
+DEPLOYMENT.md
+scripts.md
+README.md
+
