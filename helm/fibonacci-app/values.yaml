@@ -2,7 +2,7 @@
 replicaCount: 3
 
 image:
-  repository: ord.ocir.io/ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq/fibonacci-app
+  repository: us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app
   pullPolicy: IfNotPresent
   tag: "latest"
 

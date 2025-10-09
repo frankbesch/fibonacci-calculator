@@ -30,13 +30,13 @@ echo ""
 
 # Step 2: Tag for OCI Registry
 echo "🏷️  Step 2: Tagging for OCI Registry"
-docker tag $APP_NAME:$IMAGE_TAG ord.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG
+docker tag $APP_NAME:$IMAGE_TAG us-chicago-1.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG
 echo "✅ Image tagged for OCI registry"
 echo ""
 
 # Step 3: Login to OCI Registry (Cloud Shell should handle this automatically)
 echo "🔐 Step 3: Pushing to OCI Container Registry"
-docker push ord.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG
+docker push us-chicago-1.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG
 echo "✅ Image pushed to OCI registry"
 echo ""
 
@@ -163,7 +163,7 @@ echo ""
 echo "🚀 Step 8: Deploying Fibonacci App"
 
 # Create deployment
-kubectl create deployment $APP_NAME --image=ord.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG --port=8080
+kubectl create deployment $APP_NAME --image=us-chicago-1.ocir.io/$REGISTRY_NAMESPACE/$APP_NAME:$IMAGE_TAG --port=8080
 
 # Create service
 kubectl expose deployment $APP_NAME --type=LoadBalancer --port=80 --target-port=8080
