@@ -5,7 +5,7 @@
 ![Docker](https://img.shields.io/badge/docker-ready-blue)
 ![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue)
 
-A comprehensive Fibonacci sequence calculator with multiple deployment options and GPU acceleration estimates. This application provides various ways to calculate, explore, and understand the Fibonacci sequence and its mathematical properties.
+A simple Fibonacci sequence calculator with multiple deployment options and GPU acceleration estimates. This application provides various ways to calculate, explore, and understand the Fibonacci sequence and its mathematical properties.
 
 ## 🌟 Features
 
@@ -56,6 +56,15 @@ docker run -d -p 8080:8080 --name fibonacci-app fibonacci-app:v2025.09.10
 
 **Perfect for**: Production, high availability, cloud-native applications
 
+#### Option A: Object Storage (FREE) ✅ **LIVE**
+```
+🌐 https://objectstorage.us-chicago-1.oraclecloud.com/n/axsbuwrxhysd/b/fibonacci-app/o/index.html
+```
+- **Cost**: $0 (Always Free)
+- **Status**: ✅ Deployed and accessible
+- **Features**: Full web application functionality
+
+#### Option B: Kubernetes Engine (Pay-As-You-Go)
 ```bash
 # Deploy to Oracle Kubernetes Engine
 cd deployments/3-oci-oke
@@ -67,8 +76,12 @@ kubectl apply -f k8s/
 # Get external IP
 kubectl get services
 ```
+- **Cost**: ~$6-8/month (2 nodes × 0.5 OCPU × 1GB RAM)
+- **Status**: Setup script ready (requires PayGo upgrade)
 
-📖 **Full Guide**: [`deployments/3-oci-oke/README.md`](deployments/3-oci-oke/README.md)
+📖 **Full Guides**: 
+- [`deployments/3-oci-oke/README.md`](deployments/3-oci-oke/README.md)
+- [`PAYGO-SETUP-GUIDE.md`](PAYGO-SETUP-GUIDE.md)
 
 ## 📁 Repository Structure
 
@@ -82,17 +95,26 @@ fibonacci-app/
 ├── test.js                 # Comprehensive test suite
 ├── package.json            # Project metadata
 ├── Dockerfile              # Docker configuration
+├── server.js               # Node.js HTTP server for container
 ├── .gitignore              # Git ignore rules
+├── README.md               # This file
+├── GITHUB-SETUP.md         # GitHub Actions setup guide
+├── PAYGO-SETUP-GUIDE.md    # Pay-As-You-Go upgrade guide
 ├── .github/
 │   └── workflows/
 │       └── docker-build.yml    # CI/CD pipeline
+├── k8s/                    # Kubernetes manifests
+│   └── deployment.yaml     # K8s deployment & service
+├── scripts/                # Helper scripts
+│   ├── get-github-secrets.sh   # GitHub secrets extraction
+│   ├── create-minimal-cluster.sh  # Minimal cluster setup
+│   └── monitor-cluster.sh       # Cluster monitoring
 └── deployments/
     ├── 1-local/            # Local deployment
     │   ├── README.md
     │   └── run-local.sh
     ├── 2-docker/           # Docker deployment
     │   ├── README.md
-    │   ├── Dockerfile
     │   ├── docker-build.sh
     │   └── docker-run.sh
     └── 3-oci-oke/          # OCI/OKE deployment
@@ -217,10 +239,16 @@ node test.js
 - **Port**: 8080
 - **Size**: ~50MB (optimized Alpine image)
 
-### GitHub Actions
-- Automated builds on push to main
-- Version tagging from `package.json`
-- Docker image testing with health checks
+### GitHub Actions CI/CD
+- **Automated Pipeline**: Build → Test → Push to OCIR → Deploy to OKE
+- **Triggers**: Push to main, tags, pull requests
+- **Features**: 
+  - Docker image building and testing
+  - Push to Oracle Container Registry (OCIR)
+  - Automated deployment to Oracle Kubernetes Engine (OKE)
+  - Deployment status reporting
+- **Setup**: Configure GitHub secrets using [`scripts/get-github-secrets.sh`](scripts/get-github-secrets.sh)
+- **Guide**: [`GITHUB-SETUP.md`](GITHUB-SETUP.md)
 
 ## ☁️ Cloud Deployment (OCI/OKE)
 

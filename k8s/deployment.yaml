@@ -1,116 +1,62 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: fibonacci-app
-  labels:
-    name: fibonacci-app
-    app: fibonacci-calculator
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fibonacci-app
-  namespace: fibonacci-app
   labels:
-    app: fibonacci-calculator
-    version: v1.0.0
+    app: fibonacci-app
+    version: v2025.09.10
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: fibonacci-calculator
+      app: fibonacci-app
   template:
     metadata:
       labels:
-        app: fibonacci-calculator
-        version: v1.0.0
+        app: fibonacci-app
+        version: v2025.09.10
     spec:
       containers:
       - name: fibonacci-app
-        image: ord.ocir.io/ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq/fibonacci-app:latest
-        imagePullPolicy: IfNotPresent
+        image: us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app:v2025.09.10
         ports:
         - containerPort: 8080
           name: http
-        env:
-        - name: NODE_ENV
-          value: "production"
+          protocol: TCP
         resources:
           requests:
             memory: "64Mi"
-            cpu: "50m"
+            cpu: "100m"
           limits:
             memory: "128Mi"
-            cpu: "100m"
+            cpu: "200m"
         livenessProbe:
           httpGet:
-            path: /health
+            path: /
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /health
+            path: /
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1001
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
-      securityContext:
-        fsGroup: 1001
-      restartPolicy: Always
+      imagePullSecrets:
+      - name: ocir-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fibonacci-app-service
-  namespace: fibonacci-app
+  name: fibonacci-app
   labels:
-    app: fibonacci-calculator
+    app: fibonacci-app
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  selector:
+    app: fibonacci-app
   ports:
   - port: 80
     targetPort: 8080
     protocol: TCP
     name: http
-  selector:
-    app: fibonacci-calculator
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: fibonacci-app-ingress
-  namespace: fibonacci-app
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - fibonacci-app.yourdomain.com
-    secretName: fibonacci-app-tls
-  rules:
-  - host: fibonacci-app.yourdomain.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: fibonacci-app-service
-            port:
-              number: 80
