@@ -3,6 +3,20 @@
 **Last Updated:** 2025-10-10  
 **Purpose:** Compare all deployment methods for the Fibonacci Calculator
 
+## 🛠️ Tested Stack Versions
+
+**Local Environment:**
+- **MacOS**: v15.6.1
+- **Docker Desktop**: v4.28+ (with Kubernetes v1.33+)
+- **kubectl**: v1.33+
+- **Browsers**: Chrome v120+, Safari v17+, Firefox v120+
+
+**Cloud Environment:**
+- **OCI OKE**: Kubernetes v1.33.1
+- **Node Image**: Oracle Linux 8.10-2025.08.31-0
+- **Docker**: v24+
+- **Node.js**: v18+ (static server)
+
 ---
 
 ## Quick Comparison
@@ -13,7 +27,9 @@
 | **OCI Object Storage** | Free | 10 min | ❌ None | Yes (setup only) | Quick demos, static hosting |
 | **Minikube** | Free | 10 min | ✅ Full | No | Alternative local K8s |
 | **Kind** | Free | 5 min | ✅ Full | No | Advanced users, CI/CD |
-| **OCI OKE** | ~$6-10/mo | 20 min | ✅ Full | Yes | Cloud K8s practice |
+| **OCI OKE** | ~$7-22/mo* | 20 min | ✅ Full | Yes | Cloud K8s practice |
+
+*OKE cost: $21.60/month (24/7) or $7.20/month (8hrs/day). Minimum 1 OCPU per node required.
 
 ---
 
@@ -193,17 +209,18 @@
 ### Free Options (No Cost)
 | Method | Monthly Cost | Notes |
 |--------|-------------|-------|
-| Docker Desktop | $0 | Requires Mac with Docker Desktop |
+| Docker Desktop | $0 | Requires MacOS v15.6.1 with Docker Desktop v4.28+ |
 | Minikube | $0 | Uses local resources |
 | Kind | $0 | Uses local resources |
 | Object Storage | $0 | OCI Always Free tier |
 
 ### Paid Options
-| Method | Monthly Cost | Configuration |
-|--------|-------------|---------------|
-| OKE Minimal | ~$6-10 | 2 nodes × 0.5 OCPU |
-| OKE Standard | ~$50-100 | 3 nodes × 1 OCPU |
-| OKE Production | $200+ | HA, auto-scaling, monitoring |
+| Method | Monthly Cost | Configuration | Notes |
+|--------|-------------|---------------|-------|
+| OKE Minimal (24/7) | ~$21.60 | 2 nodes × 1 OCPU | Min 1 OCPU required |
+| OKE Minimal (8hrs/day) | ~$7.20 | 2 nodes × 1 OCPU | With auto-shutdown |
+| OKE Standard | ~$50-100 | 3 nodes × 1 OCPU | |
+| OKE Production | $200+ | HA, auto-scaling, monitoring | |
 
 ---
 

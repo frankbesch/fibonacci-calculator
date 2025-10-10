@@ -2,7 +2,21 @@
 
 **Last Updated:** 2025-10-10  
 **Estimated Time:** 15-20 minutes  
+**Cost:** ~$21.60/month (24/7) or ~$7.20/month (8hrs/day)  
 **Prerequisites:** OCI account on Pay-As-You-Go, OCI CLI configured
+
+## 🛠️ Stack Versions
+
+**OCI Infrastructure:**
+- **OKE**: Kubernetes v1.33.1
+- **Node Shape**: VM.Standard.E5.Flex
+- **Node Image**: Oracle Linux 8.10-2025.08.31-0
+- **OCPUs**: 1 OCPU per node (minimum required)
+- **Memory**: 2GB per node
+
+**Container Runtime:**
+- **Docker**: v24+
+- **Node.js**: v18-alpine (for static server)
 
 ---
 

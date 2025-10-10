@@ -112,15 +112,17 @@ oci ce node-pool-options get \
 
 ---
 
-## Option 3: Minimal OKE (~$6-10/month)
+## Option 3: Minimal OKE (~$7-22/month)
 
 If you want to practice Kubernetes but A1.Flex is unavailable, use minimal paid nodes.
 
 ### Configuration:
 - **Shape**: VM.Standard.E5.Flex
-- **Nodes**: 2 × 0.5 OCPU × 1GB RAM
-- **Cost**: ~$6-10/month
+- **Nodes**: 2 × 1 OCPU × 2GB RAM (minimum required)
+- **Cost**: ~$21.60/month (24/7) or ~$7.20/month (8hrs/day with auto-shutdown)
 - **Features**: Full Kubernetes cluster
+
+**Important:** E5.Flex requires minimum 1 OCPU per node (not 0.5 OCPU). This increases costs compared to initial estimates.
 
 ### Deploy:
 
@@ -148,7 +150,7 @@ echo "Cluster scaled down. Savings: ~$6/month"
 **2. Schedule-Based Scaling**
 ```bash
 # Run only during business hours (8 hours/day)
-# Cost reduction: ~66% ($10/mo → $3/mo)
+# Cost reduction: ~67% ($21.60/mo → $7.20/mo)
 
 # Morning startup (cron: 0 8 * * *)
 ./scripts/startup-cluster.sh
@@ -160,10 +162,10 @@ echo "Cluster scaled down. Savings: ~$6/month"
 **3. Cost Calculator**
 ```bash
 # Calculate your costs
-./scripts/cost-calculator.sh 2 0.5 8
-# Output: Configuration: 2 nodes × 0.5 OCPU
+./scripts/cost-calculator.sh 2 1 8
+# Output: Configuration: 2 nodes × 1 OCPU
 #         Usage: 8 hours/day
-#         Cost: $3.60/month
+#         Cost: $7.20/month
 ```
 
 ---
@@ -174,7 +176,9 @@ echo "Cluster scaled down. Savings: ~$6/month"
 |--------|------|-----------|--------------|-------------|
 | **Object Storage** | $0 | 10 min | ❌ None | None |
 | **OKE (A1.Flex)** | $0 | 20 min | ✅ Full | Low |
-| **OKE (E5.Flex)** | $6-10/mo | 20 min | ✅ Full | Low |
+| **OKE (E5.Flex)** | $7-22/mo* | 20 min | ✅ Full | Low |
+
+*E5.Flex: $21.60/mo (24/7) or $7.20/mo (8hrs/day). Minimum 1 OCPU per node required.
 
 ---
 

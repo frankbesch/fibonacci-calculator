@@ -15,9 +15,9 @@ This simple Fibonacci calculator is designed for learning container orchestratio
 
 ✅ **Learning Tool** - Practice containerization and K8s deployment  
 ✅ **Free Tier Compatible** - Runs on OCI Always Free (Object Storage)  
-✅ **Local-First** - Works on Docker Desktop for MacOS  
+✅ **Local-First** - Works on Docker Desktop for MacOS v15.6.1  
 ✅ **CPU-Only** - Simple calculations, no GPU required  
-✅ **Cost-Effective** - Free (local/Object Storage) or ~$6-10/month (OKE)
+✅ **Cost Options** - Free (local/Object Storage) or ~$7-22/month (OKE)
 
 ## ❌ What This Project is NOT
 
@@ -27,6 +27,24 @@ This is **NOT** related to:
 - Enterprise inference deployments
 
 > **Note**: For production AI inference with NVIDIA NIM on OKE, see the separate [`nvidia-nim-oke`](../nvidia-nim-oke/) project.
+
+## 🛠️ Technology Stack
+
+**Local Development:**
+- MacOS: v15.6.1
+- Docker Desktop: v4.28+ (with Kubernetes enabled)
+- kubectl: v1.33+
+- Browser: Chrome v120+, Safari v17+, or Firefox v120+
+
+**Cloud Deployment:**
+- OCI OKE (Oracle Kubernetes Engine): v1.33.1
+- Docker: v24+
+- Node.js: v18+ (for static server)
+
+**Application:**
+- HTML5, CSS3 (Grid, Flexbox)
+- JavaScript (ES6+)
+- No external frameworks (vanilla JS)
 
 ## 🌟 Features
 
@@ -45,7 +63,9 @@ This is **NOT** related to:
 |--------|------|-------------|----------|-------|
 | **Local Docker Desktop** | Free | ✅ Full | Learning K8s | [LOCAL-K8S-GUIDE.md](LOCAL-K8S-GUIDE.md) |
 | **OCI Object Storage** | Free | ❌ None | Quick demo | [FREE-TIER-GUIDE.md](FREE-TIER-GUIDE.md) |
-| **OCI OKE** | ~$6-10/mo | ✅ Full | Cloud practice | [QUICKSTART.md](QUICKSTART.md) |
+| **OCI OKE** | ~$7-22/mo* | ✅ Full | Cloud practice | [QUICKSTART.md](QUICKSTART.md) |
+
+*OKE requires minimum 1 OCPU per node. Cost: ~$21.60/month (24/7) or ~$7.20/month (8hrs/day with auto-shutdown)
 
 ### 1️⃣ Local MacOS Deployment (Recommended for Learning)
 

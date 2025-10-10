@@ -32,7 +32,19 @@ echo ""
 
 # Configuration - Get from environment or OCI CLI config
 REGION=${OCI_REGION:-$(oci iam region-subscription list --query 'data[0]."region-name"' --raw-output 2>/dev/null || echo "us-chicago-1")}
-TENANCY_OCID=${OCI_TENANCY:-$(oci iam region-subscription list --query 'data[0]."tenancy-id"' --raw-output 2>/dev/null)}
+
+# Get tenancy OCID - try environment first, then OCI CLI
+if [ -n "$TENANCY_OCID" ]; then
+    echo "Using TENANCY_OCID from environment"
+else
+    TENANCY_OCID=$(oci iam region-subscription list --query 'data[0]."tenancy-id"' --raw-output 2>/dev/null)
+fi
+
+if [ -z "$TENANCY_OCID" ]; then
+    echo "❌ Could not determine TENANCY_OCID. Please set:"
+    echo "   export TENANCY_OCID=<your-tenancy-ocid>"
+    exit 1
+fi
 
 # Cluster configuration - must be set by user
 if [ -z "$CLUSTER_ID" ]; then
@@ -101,7 +113,6 @@ oci ce node-pool create \
   --size 2 \
   --ssh-public-key "$SSH_KEY" \
   --node-metadata '{"workload":"fibonacci","environment":"production","cost-optimized":"true"}' \
-  --node-source-details '{"sourceType":"IMAGE","imageId":"'$IMAGE_ID'"}' \
   --wait-for-state SUCCEEDED
 
 echo ""

@@ -1,9 +1,25 @@
 # Local Kubernetes Deployment Guide (MacOS)
 
 **Last Updated:** 2025-10-10  
-**MacOS Version:** 15.6.1  
 **Cost:** Free  
 **Best For:** Learning Kubernetes locally
+
+## 🛠️ Tested Environment
+
+**Hardware & OS:**
+- **MacOS**: v15.6.1
+- **RAM**: 8GB+ recommended
+- **Disk**: 20GB+ free space
+
+**Software Versions:**
+- **Docker Desktop**: v4.28+ 
+- **Kubernetes** (via Docker Desktop): v1.33+
+- **kubectl**: v1.33+
+- **Browsers**: Chrome v120+, Safari v17+, Firefox v120+
+
+**Alternative Tools:**
+- **Minikube**: v1.32+
+- **Kind**: v0.20+
 
 ---
 
