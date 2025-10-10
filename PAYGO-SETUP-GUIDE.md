@@ -15,7 +15,7 @@ This guide will help you upgrade to Pay-As-You-Go and create a minimal cost 2-no
 ### 1.1 Access OCI Console
 1. Go to: https://cloud.oracle.com/
 2. Sign in with your account
-3. Ensure you're in the correct region: **US Midwest (Chicago)**
+3. Select your preferred region (e.g., US Midwest (Chicago), US East (Ashburn), US West (Phoenix))
 
 ### 1.2 Navigate to Upgrade
 1. Click the **Menu** (hamburger icon) in the top-left
@@ -24,10 +24,9 @@ This guide will help you upgrade to Pay-As-You-Go and create a minimal cost 2-no
 
 ### 1.3 Complete Upgrade
 1. Review your account details:
-   - **Plan Reference**: 42442881
    - **Plan Type**: Free Tier
-   - **Email**: frank.besch@icloud.com
-   - **Payment Method**: Mastercard ****4883
+   - **Email**: Your registered email
+   - **Payment Method**: Your payment method on file
 
 2. Click **"Upgrade your account"** button
 
@@ -134,7 +133,7 @@ kubectl scale deployment fibonacci-app --replicas=2
 
 ## Alternative: Object Storage (FREE)
 If you prefer to avoid costs entirely, your app is already deployed to Object Storage:
-- **URL**: https://objectstorage.us-chicago-1.oraclecloud.com/n/axsbuwrxhysd/b/fibonacci-app/o/index.html
+- **URL**: https://objectstorage.us-chicago-1.oraclecloud.com/n/<namespace>/b/fibonacci-app/o/index.html
 - **Cost**: $0
 - **Limitations**: No Kubernetes features
 

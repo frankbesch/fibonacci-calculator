@@ -42,13 +42,14 @@ cat ~/.oci/oci_api_key.pem
 
 | Secret Name | Description | Value |
 |------------|-------------|-------|
-| `OCI_USERNAME` | OCI username for OCIR | `axsbuwrxhysd/frank.besch@icloud.com` |
+| `OCI_USERNAME` | OCI username for OCIR | `<namespace>/<your-username>` |
 | `OCI_AUTH_TOKEN` | OCIR authentication token | From OCI Console → User Settings → Auth Tokens |
-| `OCI_EMAIL` | Your email address | `frank.besch@icloud.com` |
+| `OCI_EMAIL` | Your email address | `your-email@example.com` |
+| `OCIR_NAMESPACE` | Your tenancy namespace | Run: `oci os ns get --query data --raw-output` |
+| `OCI_REGION` | Your OCI region | e.g., `us-phoenix-1`, `us-ashburn-1` |
+| `OKE_CLUSTER_ID` | Your OKE cluster OCID | From: `oci ce cluster list` |
 
-**Current Auth Token:** `7YV{01o.)]L[8AWe_j.{`
-
-**Registry Endpoint:** `us-chicago-1.ocir.io` (NOT `ord.ocir.io`)
+**Registry Endpoint Format:** `<region>.ocir.io` (e.g., `us-phoenix-1.ocir.io`)
 
 **To create a new auth token:**
 ```bash
@@ -82,13 +83,13 @@ echo "(Copy the content below, including BEGIN/END lines)"
 cat ~/.oci/oci_api_key.pem
 echo ""
 echo "OCI_USERNAME:"
-echo "oracleidentitycloudservice/frank.besch@oracle.com"
+echo "oracleidentitycloudservice/your-username"
 echo ""
 echo "OCI_AUTH_TOKEN:"
 echo "TLva(AH(C>Tq3jqDqFk4"
 echo ""
 echo "OCI_EMAIL:"
-echo "frank.besch@oracle.com"
+echo "your-username"
 echo ""
 ```
 
@@ -114,7 +115,7 @@ The workflow runs automatically on:
 The following are configured in the workflow file (no secrets needed):
 
 - `OCI_REGION`: `us-chicago-1`
-- `OCIR_NAMESPACE`: `axsbuwrxhysd`
+- `OCIR_NAMESPACE`: `<namespace>`
 - `IMAGE_NAME`: `fibonacci-app`
 - `OKE_CLUSTER_ID`: `ocid1.cluster.oc1.us-chicago-1.aaaaaaaag637h4fhp6gs3sk7e2nhd5tlblbvmnmwjrh2gatvzcz5cq4xpg3q`
 

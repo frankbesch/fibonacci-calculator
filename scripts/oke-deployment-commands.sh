@@ -6,7 +6,7 @@
 echo "🚀 OKE Deployment Commands"
 echo "=========================="
 echo ""
-echo "Your image is already in OCIR: us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app:latest"
+echo "Your image is already in OCIR: us-chicago-1.ocir.io/<namespace>/fibonacci-app:latest"
 echo ""
 echo "Run these commands in OCI Cloud Shell:"
 echo ""
@@ -18,7 +18,7 @@ export REGION="us-chicago-1"
 export TENANCY_OCID="ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq"
 export COMPARTMENT_ID="$TENANCY_OCID"
 export APP_NAME="fibonacci-app"
-export IMAGE="us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app:latest"
+export IMAGE="us-chicago-1.ocir.io/<namespace>/fibonacci-app:latest"
 
 # 2. Check if you have an OKE cluster already
 oci ce cluster list --compartment-id $COMPARTMENT_ID --query 'data[*].{Name:name, State:"lifecycle-state"}' --output table
@@ -36,13 +36,13 @@ kubectl get nodes
 # 5. Create image pull secret for OCIR
 kubectl create secret docker-registry ocir-secret \
   --docker-server=us-chicago-1.ocir.io \
-  --docker-username=axsbuwrxhysd/frank.besch@icloud.com \
+  --docker-username=<namespace>/your-email@example.com \
   --docker-password='7YV{01o.)]L[8AWe_j.{' \
-  --docker-email=frank.besch@icloud.com
+  --docker-email=your-email@example.com
 
 # 6. Create deployment
 kubectl create deployment fibonacci-app \
-  --image=us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app:latest \
+  --image=us-chicago-1.ocir.io/<namespace>/fibonacci-app:latest \
   --port=8080
 
 # 7. Patch deployment to use image pull secret

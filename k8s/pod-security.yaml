@@ -1,23 +1,17 @@
-# ============================================================================
-# Fibonacci App - Optimized Kubernetes Deployment
-# ============================================================================
-# Last Updated: 2025-10-10
-# Version: v2025.09.10
-# 
-# Features:
-#   - Enhanced security with pod security context
-#   - Pod anti-affinity for HA
-#   - Optimized resource limits (50% reduction)
-#   - Prometheus monitoring integration
-#   - Read-only root filesystem
-#   - Non-root user execution
-#
-# Cost Optimization: 32Mi/50m requests (vs 64Mi/100m previously)
-# ============================================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fibonacci-app
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fibonacci-app
+  name: fibonacci-app-secure
+  namespace: fibonacci-app
   labels:
     app: fibonacci-app
     version: v2025.09.10
@@ -31,10 +25,6 @@ spec:
       labels:
         app: fibonacci-app
         version: v2025.09.10
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
     spec:
       securityContext:
         runAsNonRoot: true
@@ -43,18 +33,6 @@ spec:
         fsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - fibonacci-app
-              topologyKey: kubernetes.io/hostname
       containers:
       - name: fibonacci-app
         image: us-chicago-1.ocir.io/axsbuwrxhysd/fibonacci-app:v2025.09.10
@@ -85,16 +63,12 @@ spec:
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -111,7 +85,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fibonacci-app
+  name: fibonacci-app-secure
+  namespace: fibonacci-app
   labels:
     app: fibonacci-app
 spec:

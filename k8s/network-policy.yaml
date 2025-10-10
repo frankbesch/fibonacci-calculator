@@ -1,0 +1,116 @@
+# ============================================================================
+# Network Policies - Security Hardening
+# ============================================================================
+# Last Updated: 2025-10-10
+# Version: 1.0.0
+#
+# Purpose: Restrict network traffic to minimum required for operation
+# 
+# Rules:
+#   - Allow ingress from LoadBalancer only
+#   - Allow egress to DNS, OCIR, and OCI services
+#   - Deny all other traffic by default
+#
+# Security Level: Restricted (Zero Trust model)
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: fibonacci-app-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: fibonacci-app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from LoadBalancer service
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow traffic from other pods in same namespace
+  - from:
+    - podSelector:
+        matchLabels:
+          app: fibonacci-app
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow HTTPS to OCIR (Oracle Container Registry)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    # Restrict to OCIR domains
+    - protocol: TCP
+      port: 443
+  # Allow HTTP/HTTPS to OCI services (for monitoring, secrets)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+  # Deny all other traffic
+  - to: []
+    ports: []
+---
+# Network policy for monitoring pods (Prometheus)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: monitoring-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: prometheus
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow Prometheus to scrape metrics
+  - from:
+    - podSelector:
+        matchLabels:
+          app: fibonacci-app
+    ports:
+    - protocol: TCP
+      port: 9090
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow scraping app metrics
+  - to:
+    - podSelector:
+        matchLabels:
+          app: fibonacci-app
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow external monitoring endpoints
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443

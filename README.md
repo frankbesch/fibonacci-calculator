@@ -1,27 +1,53 @@
-# Fibonacci Calculator Application
+# Fibonacci Calculator - Containerization Learning Project
 
 ![Version](https://img.shields.io/badge/version-v2025.09.10-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Docker](https://img.shields.io/badge/docker-ready-blue)
 ![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue)
+![Free Tier](https://img.shields.io/badge/OCI_Free_Tier-Compatible-orange)
+![Local MacOS](https://img.shields.io/badge/MacOS_15.6.1-Compatible-blue)
 
-A simple Fibonacci sequence calculator with multiple deployment options and GPU acceleration estimates. This application provides various ways to calculate, explore, and understand the Fibonacci sequence and its mathematical properties.
+**A standalone learning project for practicing Docker containerization and Kubernetes deployment.**
+
+This simple Fibonacci calculator is designed for learning container orchestration on local MacOS (v15.6.1) and OCI cloud platforms. Perfect for hands-on practice with Docker, Kubernetes, and cloud deployments.
+
+## 🎯 What This Project IS
+
+✅ **Learning Tool** - Practice containerization and K8s deployment  
+✅ **Free Tier Compatible** - Runs on OCI Always Free (Object Storage)  
+✅ **Local-First** - Works on Docker Desktop for MacOS  
+✅ **CPU-Only** - Simple calculations, no GPU required  
+✅ **Cost-Effective** - Free (local/Object Storage) or ~$6-10/month (OKE)
+
+## ❌ What This Project is NOT
+
+This is **NOT** related to:
+- NVIDIA NIM or GPU workloads
+- Production AI/ML platforms  
+- Enterprise inference deployments
+
+> **Note**: For production AI inference with NVIDIA NIM on OKE, see the separate [`nvidia-nim-oke`](../nvidia-nim-oke/) project.
 
 ## 🌟 Features
 
 - **Multiple Calculation Methods**: Iterative, Recursive, and Memorized implementations
 - **Web Interface**: Beautiful, modern web application with interactive UI
-- **GPU Acceleration Estimates**: Theoretical performance comparisons using NVIDIA Blackwell B200 architecture
+- **Performance Comparison**: Built-in benchmarking across different algorithms
 - **Real-time Validation**: Check if numbers are Fibonacci numbers with instant feedback
-- **Performance Comparison**: Built-in performance benchmarking across algorithms
-- **Mathematical Tools**: Fibonacci checking, sequence generation, and golden ratio calculations
-- **Three Deployment Options**: Local, Docker containerized, and cloud (OCI/OKE)
+- **Mathematical Tools**: Fibonacci checking, sequence generation, and calculations
+- **Multiple Deployment Options**: Local MacOS, Docker, and cloud (OCI)
 
-## 🚀 Quick Start
+## 🚀 Deployment Options
 
-Choose your deployment method:
+**Recommended Learning Path**: Start with local deployment, then try cloud options.
 
-### 1️⃣ Local Deployment (Non-Containerized)
+| Method | Cost | K8s Features | Best For | Guide |
+|--------|------|-------------|----------|-------|
+| **Local Docker Desktop** | Free | ✅ Full | Learning K8s | [LOCAL-K8S-GUIDE.md](LOCAL-K8S-GUIDE.md) |
+| **OCI Object Storage** | Free | ❌ None | Quick demo | [FREE-TIER-GUIDE.md](FREE-TIER-GUIDE.md) |
+| **OCI OKE** | ~$6-10/mo | ✅ Full | Cloud practice | [QUICKSTART.md](QUICKSTART.md) |
+
+### 1️⃣ Local MacOS Deployment (Recommended for Learning)
 
 **Perfect for**: Quick testing, development, local exploration
 
@@ -58,7 +84,7 @@ docker run -d -p 8080:8080 --name fibonacci-app fibonacci-app:v2025.09.10
 
 #### Option A: Object Storage (FREE) ✅ **LIVE**
 ```
-🌐 https://objectstorage.us-chicago-1.oraclecloud.com/n/axsbuwrxhysd/b/fibonacci-app/o/index.html
+🌐 https://objectstorage.us-chicago-1.oraclecloud.com/n/<namespace>/b/fibonacci-app/o/index.html
 ```
 - **Cost**: $0 (Always Free)
 - **Status**: ✅ Deployed and accessible

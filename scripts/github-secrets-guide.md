@@ -16,17 +16,17 @@ Click **New repository secret** (or **Update** if they already exist):
 
 #### **Secret 1: OCI_USERNAME**
 - **Name:** `OCI_USERNAME`
-- **Value:** `axsbuwrxhysd/frank.besch@icloud.com`
+- **Value:** `<namespace>/your-email@example.com`
 - **Description:** OCI username for OCIR authentication
 
 #### **Secret 2: OCI_AUTH_TOKEN**
 - **Name:** `OCI_AUTH_TOKEN`
-- **Value:** `7YV{01o.)]L[8AWe_j.{`
+- **Value:** `<your-auth-token>`
 - **Description:** OCI auth token for OCIR push
 
 #### **Secret 3: OCI_EMAIL**
 - **Name:** `OCI_EMAIL`
-- **Value:** `frank.besch@icloud.com`
+- **Value:** `your-email@example.com`
 - **Description:** Your OCI account email
 
 #### **Secret 4: OCI_REGION**
@@ -51,7 +51,7 @@ Click **New repository secret** (or **Update** if they already exist):
 
 #### **Secret 8: OCIR_NAMESPACE**
 - **Name:** `OCIR_NAMESPACE`
-- **Value:** `axsbuwrxhysd`
+- **Value:** `<namespace>`
 - **Description:** OCIR namespace (object storage namespace)
 
 ---
@@ -91,14 +91,14 @@ Then check: https://github.com/frankbesch/fibonacci-calculator/actions
 
 | Secret Name | Type | Current Value |
 |-------------|------|---------------|
-| `OCI_USERNAME` | String | `axsbuwrxhysd/frank.besch@icloud.com` |
-| `OCI_AUTH_TOKEN` | Secret | `7YV{01o.)]L[8AWe_j.{` |
-| `OCI_EMAIL` | String | `frank.besch@icloud.com` |
+| `OCI_USERNAME` | String | `<namespace>/your-email@example.com` |
+| `OCI_AUTH_TOKEN` | Secret | `<your-auth-token>` |
+| `OCI_EMAIL` | String | `your-email@example.com` |
 | `OCI_REGION` | String | `us-chicago-1` |
 | `OCI_TENANCY_OCID` | String | `ocid1.tenancy.oc1..aaaa...f2vzq` |
 | `OCI_COMPARTMENT_ID` | String | `ocid1.tenancy.oc1..aaaa...f2vzq` |
 | `OCIR_REGISTRY` | String | `us-chicago-1.ocir.io` |
-| `OCIR_NAMESPACE` | String | `axsbuwrxhysd` |
+| `OCIR_NAMESPACE` | String | `<namespace>` |
 
 ---
 

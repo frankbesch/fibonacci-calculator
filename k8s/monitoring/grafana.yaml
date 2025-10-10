@@ -1,0 +1,243 @@
+# ============================================================================
+# Grafana Dashboard - Pre-configured for Fibonacci App
+# ============================================================================
+# Last Updated: 2025-10-10
+# Version: 1.0.0
+#
+# Configuration:
+#   - Pre-built dashboard for Fibonacci app metrics
+#   - Auto-configured Prometheus datasource
+#   - Default credentials: admin/fibonacci2025
+#
+# Dashboards Include:
+#   - Pod status and health
+#   - CPU/Memory usage
+#   - Node status
+#   - Cost optimization metrics
+#
+# Access: Port-forward to 3000 for Grafana UI
+# ============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 472
+        runAsGroup: 472
+        fsGroup: 472
+      containers:
+      - name: grafana
+        image: grafana/grafana:10.1.0
+        ports:
+        - containerPort: 3000
+          name: grafana
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        env:
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: "fibonacci2025"
+        - name: GF_USERS_ALLOW_SIGN_UP
+          value: "false"
+        - name: GF_INSTALL_PLUGINS
+          value: "grafana-piechart-panel"
+        volumeMounts:
+        - name: grafana-storage
+          mountPath: /var/lib/grafana
+        - name: grafana-dashboards
+          mountPath: /etc/grafana/provisioning/dashboards
+        - name: grafana-datasources
+          mountPath: /etc/grafana/provisioning/datasources
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: grafana-storage
+        emptyDir: {}
+      - name: grafana-dashboards
+        configMap:
+          name: grafana-dashboard-config
+      - name: grafana-datasources
+        configMap:
+          name: grafana-datasource-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-config
+  namespace: monitoring
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus:9090
+      isDefault: true
+      editable: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-config
+  namespace: monitoring
+data:
+  dashboardproviders.yaml: |
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      updateIntervalSeconds: 10
+      allowUiUpdates: true
+      options:
+        path: /etc/grafana/provisioning/dashboards
+  fibonacci-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Fibonacci App Dashboard",
+        "tags": ["fibonacci", "oke"],
+        "style": "dark",
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Pod Status",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "count(up{job=\"fibonacci-app\"} == 1)",
+                "legendFormat": "Running Pods"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "steps": [
+                    {"color": "red", "value": 0},
+                    {"color": "yellow", "value": 1},
+                    {"color": "green", "value": 2}
+                  ]
+                }
+              }
+            },
+            "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "CPU Usage",
+            "type": "timeseries",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{pod=~\"fibonacci-app-.*\"}[5m])",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 6, "y": 0}
+          },
+          {
+            "id": 3,
+            "title": "Memory Usage",
+            "type": "timeseries",
+            "targets": [
+              {
+                "expr": "container_memory_usage_bytes{pod=~\"fibonacci-app-.*\"} / 1024 / 1024",
+                "legendFormat": "{{pod}} MB"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+          },
+          {
+            "id": 4,
+            "title": "Node Status",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "count(up{job=\"kubernetes-nodes\"} == 1)",
+                "legendFormat": "Active Nodes"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "steps": [
+                    {"color": "red", "value": 0},
+                    {"color": "yellow", "value": 1},
+                    {"color": "green", "value": 2}
+                  ]
+                }
+              }
+            },
+            "gridPos": {"h": 8, "w": 6, "x": 0, "y": 8}
+          },
+          {
+            "id": 5,
+            "title": "Cost Optimization",
+            "type": "timeseries",
+            "targets": [
+              {
+                "expr": "avg(rate(container_cpu_usage_seconds_total{pod=~\"fibonacci-app-.*\"}[5m]))",
+                "legendFormat": "Avg CPU Usage"
+              },
+              {
+                "expr": "0.5",
+                "legendFormat": "Node Capacity (0.5 OCPU)"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 18, "x": 6, "y": 8}
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: grafana
+  selector:
+    app: grafana
