@@ -78,7 +78,7 @@ kubectl get pods -n kube-system
 
 ```bash
 # Navigate to project
-cd /Users/frankbesch/fibonacci-app
+cd fibonacci-calculator
 
 # Switch to Docker Desktop context (if not already)
 kubectl config use-context docker-desktop

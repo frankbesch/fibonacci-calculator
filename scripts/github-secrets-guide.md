@@ -36,12 +36,12 @@ Click **New repository secret** (or **Update** if they already exist):
 
 #### **Secret 5: OCI_TENANCY_OCID**
 - **Name:** `OCI_TENANCY_OCID`
-- **Value:** `ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq`
+- **Value:** `<your-tenancy-ocid>`
 - **Description:** OCI tenancy OCID
 
 #### **Secret 6: OCI_COMPARTMENT_ID**
 - **Name:** `OCI_COMPARTMENT_ID`
-- **Value:** `ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq`
+- **Value:** `<your-tenancy-ocid>`
 - **Description:** OCI compartment OCID (same as tenancy for root)
 
 #### **Secret 7: OCIR_REGISTRY**

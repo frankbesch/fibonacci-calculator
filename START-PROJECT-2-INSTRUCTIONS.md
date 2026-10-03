@@ -15,7 +15,7 @@
 ### DO:
 - ✅ Close the Fibonacci app Cursor session first
 - ✅ Start a NEW Cursor session (fresh context window)
-- ✅ Create separate directory: `/Users/frankbesch/nvidia-nim-oke/`
+- ✅ Create separate directory: `~/nvidia-nim-oke/`
 - ✅ Use separate Git repository (optional but recommended)
 
 ---
@@ -43,12 +43,12 @@
 **In the NEW Cursor session:**
 ```bash
 # Navigate to existing Project 2 directory
-cd /Users/frankbesch/nvidia-nim-oke
+cd ~/nvidia-nim-oke
 
 # Verify you're in the RIGHT directory
 pwd
-# Should show: /Users/frankbesch/nvidia-nim-oke
-# NOT: /Users/frankbesch/fibonacci-app
+# Should show: ~/nvidia-nim-oke
+# NOT: fibonacci-calculator
 
 # Check existing files
 ls -la
@@ -67,7 +67,7 @@ I'm working on Project 2: NVIDIA NIM on OKE deployment.
 
 Context:
 - This is a completely separate project from fibonacci-app
-- Directory: /Users/frankbesch/nvidia-nim-oke/ (already exists with some artifacts)
+- Directory: ~/nvidia-nim-oke/ (already exists with some artifacts)
 - Existing files: README.md, docs/, helm/, scripts/ from previous session
 
 Project Requirements:
@@ -107,7 +107,7 @@ Please start by reviewing what's in the directory and create a plan.
 
 ### Directory Structure
 ```
-/Users/frankbesch/nvidia-nim-oke/
+~/nvidia-nim-oke/
 ├── README.md
 ├── docs/
 ├── k8s/
@@ -139,12 +139,12 @@ Please start by reviewing what's in the directory and create a plan.
 
 ```
 Cursor Window 1: Project 1 (Fibonacci)
-├── Workspace: /Users/frankbesch/fibonacci-app/
+├── Workspace: fibonacci-calculator/
 ├── AI Context: Fibonacci-specific
 └── Use for: Fibonacci updates, documentation
 
 Cursor Window 2: Project 2 (NIM)
-├── Workspace: /Users/frankbesch/nvidia-nim-oke/
+├── Workspace: ~/nvidia-nim-oke/
 ├── AI Context: NIM-specific
 └── Use for: NIM deployment, GPU setup
 ```
@@ -157,7 +157,7 @@ Cursor Window 2: Project 2 (NIM)
 
 2. **Window 2** (New session):
    - Open NEW Cursor window
-   - File → Open Folder → `/Users/frankbesch/nvidia-nim-oke/`
+   - File → Open Folder → `~/nvidia-nim-oke/`
    - Fresh AI context for NIM
 
 ### Method 2: Cursor Tabs (Alternative, Less Isolation)
@@ -203,11 +203,11 @@ In nvidia-nim-oke tab: "Working on NIM project now - deploy GPU operator"
 pwd
 
 # Project 1 - Fibonacci
-cd /Users/frankbesch/fibonacci-app/
+cd fibonacci-calculator
 ls  # Should see: index.html, app.js, k8s/, etc.
 
 # Project 2 - NIM
-cd /Users/frankbesch/nvidia-nim-oke/
+cd ~/nvidia-nim-oke/
 ls  # Should see: docs/, helm/, scripts/, README.md
 ```
 
@@ -217,7 +217,7 @@ ls  # Should see: docs/, helm/, scripts/, README.md
 ```
 "I'm now working on Project 2 (NVIDIA NIM on OKE).
 This is separate from the Fibonacci project.
-Directory: /Users/frankbesch/nvidia-nim-oke/"
+Directory: ~/nvidia-nim-oke/"
 ```
 
 ---
@@ -228,7 +228,7 @@ Before starting Project 2, verify:
 
 - [ ] Closed fibonacci-app Cursor session
 - [ ] Started NEW Cursor session
-- [ ] Created `/Users/frankbesch/nvidia-nim-oke/` directory
+- [ ] Created `~/nvidia-nim-oke/` directory
 - [ ] Verified `pwd` shows nvidia-nim-oke (not fibonacci-app)
 - [ ] No fibonacci-app files in current directory
 - [ ] Fresh AI context (no Fibonacci history)
@@ -243,7 +243,7 @@ Copy and paste this into the NEW Cursor session:
 Create NVIDIA NIM on OKE deployment project.
 
 Requirements:
-- Directory: /Users/frankbesch/nvidia-nim-oke/
+- Directory: ~/nvidia-nim-oke/
 - Minimal-cost GPU configuration (learning/practice)
 - Complete separation from fibonacci-app project
 - Reference: https://github.com/NVIDIA/nim-deploy/blob/main/cloud-service-providers/oracle/oke/README.md
@@ -273,7 +273,7 @@ Note: This is NOT Free Tier compatible (GPU required).
 **To deploy Project 1 in future:**
 ```bash
 # Local (free)
-cd /Users/frankbesch/fibonacci-app
+cd fibonacci-calculator
 ./local/docker-desktop/deploy.sh
 
 # Object Storage (free)
@@ -410,7 +410,7 @@ This gives you a clean slate for the new project.
 - **No action needed** unless you want to clean up
 
 **Your Real Project Files:**
-- Saved in `/Users/frankbesch/fibonacci-app/`
+- Saved in `fibonacci-calculator/`
 - Committed to GitHub
 - Completely safe and preserved
 - Will persist even if you close all tabs

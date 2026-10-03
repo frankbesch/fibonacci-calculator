@@ -56,7 +56,7 @@ source ~/.bashrc # for bash
 
 ```bash
 # Add this line to your ~/.zshrc or ~/.bashrc
-echo 'source /Users/frankbesch/fibonacci-app/scripts/shell-safety-config.sh' >> ~/.zshrc
+echo "source $PWD/scripts/shell-safety-config.sh" >> ~/.zshrc  # run from the repo root
 
 # Reload your shell
 source ~/.zshrc

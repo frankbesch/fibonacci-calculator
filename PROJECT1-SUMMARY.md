@@ -138,7 +138,7 @@ curl http://<LOADBALANCER-IP>
 ### **Option 3: Proceed to Project 2**
 - Close this Cursor session
 - Start NEW session for NVIDIA NIM on OKE
-- Directory: /Users/frankbesch/nvidia-nim-oke/
+- Directory: ~/nvidia-nim-oke/
 
 ---
 

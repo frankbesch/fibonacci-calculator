@@ -25,7 +25,7 @@ echo "Configuration file: $SHELL_CONFIG"
 echo ""
 
 # Check if already installed
-SAFETY_SOURCE="source /Users/frankbesch/fibonacci-app/scripts/shell-safety-config.sh"
+SAFETY_SOURCE="source $(cd "$(dirname "$0")" && pwd)/shell-safety-config.sh"
 
 if grep -q "shell-safety-config.sh" "$SHELL_CONFIG" 2>/dev/null; then
     echo "ℹ️  Safety configuration already installed in $SHELL_CONFIG"

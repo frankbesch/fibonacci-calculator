@@ -26,7 +26,7 @@
 
 ```bash
 # Navigate to project directory
-cd /Users/frankbesch/fibonacci-app
+cd fibonacci-calculator
 
 # Set your region (choose one)
 export OCI_REGION="us-phoenix-1"     # Arizona

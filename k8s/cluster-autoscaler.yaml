@@ -41,11 +41,11 @@ spec:
         - --min-nodes-total=1
         env:
         - name: OCI_CLUSTER_ID
-          value: "ocid1.cluster.oc1.us-chicago-1.aaaaaaaag637h4fhp6gs3sk7e2nhd5tlblbvmnmwjrh2gatvzcz5cq4xpg3q"
+          value: "<your-cluster-ocid>"
         - name: OCI_REGION
           value: "us-chicago-1"
         - name: OCI_COMPARTMENT_ID
-          value: "ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq"
+          value: "<your-tenancy-ocid>"
 ---
 apiVersion: v1
 kind: ServiceAccount

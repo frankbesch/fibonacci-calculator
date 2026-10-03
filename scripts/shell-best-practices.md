@@ -131,7 +131,7 @@ chmod +x .git/hooks/pre-commit
 #### For Local Development:
 ```bash
 # Add to ~/.zshrc or ~/.bashrc
-alias fb-check='cd /Users/frankbesch/fibonacci-app && ./scripts/check-shell-syntax.sh'
+alias fb-check='cd "$FIB_HOME" && ./scripts/check-shell-syntax.sh'
 ```
 
 #### For Docker Environments:

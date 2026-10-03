@@ -38,7 +38,7 @@ This directory contains helper scripts and configurations to prevent and fix she
 **Installation:**
 ```bash
 # Add to your shell configuration
-echo 'source /Users/frankbesch/fibonacci-app/scripts/shell-safety-config.sh' >> ~/.zshrc
+echo "source $PWD/scripts/shell-safety-config.sh" >> ~/.zshrc  # run from the repo root
 source ~/.zshrc
 ```
 
@@ -78,7 +78,7 @@ fb-help  # after installing shell-safety-config.sh
 ### Step 2: Install safety configuration
 ```bash
 # Add to your ~/.zshrc
-echo 'source /Users/frankbesch/fibonacci-app/scripts/shell-safety-config.sh' >> ~/.zshrc
+echo "source $PWD/scripts/shell-safety-config.sh" >> ~/.zshrc  # run from the repo root
 
 # Reload your shell
 source ~/.zshrc

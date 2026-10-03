@@ -10,8 +10,8 @@ echo "=================================================="
 
 # Configuration
 REGION="us-chicago-1"
-TENANCY_OCID="ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq"
-COMPARTMENT_ID="ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq"
+TENANCY_OCID="${TENANCY_OCID:?export TENANCY_OCID first}"
+COMPARTMENT_ID="${COMPARTMENT_ID:-$TENANCY_OCID}"
 REGISTRY_NAMESPACE="<namespace>"
 APP_NAME="fibonacci-app"
 IMAGE_TAG="latest"

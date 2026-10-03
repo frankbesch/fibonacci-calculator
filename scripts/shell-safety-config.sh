@@ -4,7 +4,7 @@
 # Add this to your ~/.zshrc or ~/.bashrc to prevent quote/syntax errors
 # 
 # Installation:
-#   echo 'source /Users/frankbesch/fibonacci-app/scripts/shell-safety-config.sh' >> ~/.zshrc
+#   echo "source $PWD/scripts/shell-safety-config.sh" >> ~/.zshrc  # from the repo root
 #   source ~/.zshrc
 
 # ============================================================================
@@ -16,9 +16,10 @@ alias check-sh='bash -n'
 alias check-all-sh='find . -name "*.sh" -type f -exec bash -n {} \; -print'
 
 # Fibonacci app specific shortcuts
-alias fb='cd /Users/frankbesch/fibonacci-app'
-alias fb-check='cd /Users/frankbesch/fibonacci-app && ./scripts/check-shell-syntax.sh'
-alias fb-help='cat /Users/frankbesch/fibonacci-app/scripts/shell-best-practices.md'
+FIB_HOME="${FIB_HOME:-$HOME/fibonacci-calculator}"  # where you cloned the repo
+alias fb='cd "$FIB_HOME"'
+alias fb-check='cd "$FIB_HOME" && ./scripts/check-shell-syntax.sh'
+alias fb-help='cat "$FIB_HOME/scripts/shell-best-practices.md"'
 
 # ============================================================================
 # VISUAL FEEDBACK

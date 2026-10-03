@@ -15,7 +15,7 @@
 - **Technology**: Docker, Kubernetes, simple web application
 - **Resources**: CPU-only (no GPU)
 - **Cost**: Free (local/Object Storage) or ~$6-10/month (OKE)
-- **Directory**: `/Users/frankbesch/fibonacci-app/`
+- **Directory**: `fibonacci-calculator/`
 - **Target Audience**: Beginners learning containers and K8s
 
 ### Deployment Options
@@ -52,7 +52,7 @@
 - **Technology**: NVIDIA NIM, GPU nodes (A10/V100), AI models
 - **Resources**: GPU-required (NOT CPU)
 - **Cost**: $200-2000+/month (GPU nodes are expensive)
-- **Directory**: `/Users/frankbesch/nvidia-nim-oke/`
+- **Directory**: `~/nvidia-nim-oke/`
 - **Target Audience**: AI/ML practitioners, production deployments
 
 ### Key Differences from Fibonacci Project
@@ -96,7 +96,7 @@ These projects are intentionally isolated:
 
 ### Separate Directories
 ```
-/Users/frankbesch/
+~/
 ├── fibonacci-app/           # THIS PROJECT
 │   ├── index.html
 │   ├── k8s/
@@ -162,14 +162,14 @@ Each would be:
 
 ### For This Project (Fibonacci)
 ```bash
-cd /Users/frankbesch/fibonacci-app
+cd fibonacci-calculator
 open README.md
 # Follow deployment guides
 ```
 
 ### For NIM Project (Future)
 ```bash
-cd /Users/frankbesch/nvidia-nim-oke
+cd ~/nvidia-nim-oke
 open README.md
 # Follow NIM-specific guides
 ```

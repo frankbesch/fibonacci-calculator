@@ -49,7 +49,7 @@ oci os bucket get --name fibonacci-app
 
 ```bash
 # Navigate to project directory
-cd /Users/frankbesch/fibonacci-app
+cd fibonacci-calculator
 
 # Upload files
 oci os object put --bucket-name fibonacci-app --file index.html --name index.html

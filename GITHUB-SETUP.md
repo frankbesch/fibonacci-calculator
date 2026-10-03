@@ -117,7 +117,7 @@ The following are configured in the workflow file (no secrets needed):
 - `OCI_REGION`: `us-chicago-1`
 - `OCIR_NAMESPACE`: `<namespace>`
 - `IMAGE_NAME`: `fibonacci-app`
-- `OKE_CLUSTER_ID`: `ocid1.cluster.oc1.us-chicago-1.aaaaaaaag637h4fhp6gs3sk7e2nhd5tlblbvmnmwjrh2gatvzcz5cq4xpg3q`
+- `OKE_CLUSTER_ID`: `<your-cluster-ocid>`
 
 ## Troubleshooting
 

@@ -15,7 +15,7 @@ cat << 'COMMANDS'
 
 # 1. Set variables
 export REGION="us-chicago-1"
-export TENANCY_OCID="ocid1.tenancy.oc1..aaaaaaaaw2z4q2j3bkh6s2nh6apjezrv64i4wlr3er2pwwwhixs6x65f2vzq"
+export TENANCY_OCID="<your-tenancy-ocid>"
 export COMPARTMENT_ID="$TENANCY_OCID"
 export APP_NAME="fibonacci-app"
 export IMAGE="us-chicago-1.ocir.io/<namespace>/fibonacci-app:latest"
