@@ -970,6 +970,10 @@ body {
     white-space: nowrap;
   }
 
+  #perfPositionValue {
+    display: inline; /* an inline-block lets the line break after "F(" */
+  }
+
   .gpu-details-layout {
     flex-direction: column;
     gap: 1rem;
