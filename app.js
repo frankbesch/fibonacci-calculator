@@ -871,12 +871,22 @@ class FibonacciApp {
     }
   }
 
+  // Write a formatted number with a break opportunity after each comma, so a long
+  // value wraps between digit groups, never inside one; copied text is unchanged.
+  static setDigits(element, text) {
+    element.replaceChildren();
+    text.split(',').forEach((part, i, parts) => {
+      element.append(part + (i < parts.length - 1 ? ',' : ''));
+      if (i < parts.length - 1) element.append(document.createElement('wbr'));
+    });
+  }
+
   updateFibonacciDisplay(value) {
     try {
       const element = document.getElementById('fibonacciValue');
       if (element) {
         if (typeof value === 'number' || typeof value === 'bigint') {
-          element.textContent = FibonacciCalculator.format(value);
+          FibonacciApp.setDigits(element, FibonacciCalculator.format(value));
         } else {
           element.textContent = value;
         }
@@ -890,7 +900,7 @@ class FibonacciApp {
     const element = document.getElementById('checkResult');
     if (element) {
       if (isFibonacci && position !== null) {
-        element.textContent = `${FibonacciCalculator.format(value)} = F(${position})`;
+        FibonacciApp.setDigits(element, `${FibonacciCalculator.format(value)} = F(${position})`);
         element.className = 'fibonacci-number check-success';
       } else if (value === 'Error') {
         element.textContent = 'Error';
@@ -902,8 +912,8 @@ class FibonacciApp {
         element.textContent = 'Enter a number';
         element.className = 'fibonacci-number';
       } else {
-        element.textContent = typeof value === 'bigint' || typeof value === 'number'
-          ? `${FibonacciCalculator.format(value)} is not a Fibonacci number` : String(value);
+        FibonacciApp.setDigits(element, typeof value === 'bigint' || typeof value === 'number'
+          ? `${FibonacciCalculator.format(value)} is not a Fibonacci number` : String(value));
         element.className = 'fibonacci-number check-error';
       }
     }

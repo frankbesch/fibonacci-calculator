@@ -681,6 +681,11 @@ body {
   text-align: center;
 }
 
+/* The detail boxes hold only error hints; empty, they take no space. */
+.result-display:empty {
+  display: none;
+}
+
 .result-display.success {
   color: #16a34a;
   border-color: #16a34a;
@@ -950,6 +955,11 @@ body {
 @media (max-width: 768px) {
   .widget-row {
     grid-template-columns: 1fr !important; /* single column on mobile */
+  }
+
+  .widget-row .calculator-section:first-child,
+  .widget-row .calculator-section:last-child {
+    grid-column: auto !important; /* stack; a pinned column 2 would overlap column 1 */
   }
   
   .gpu-details-layout {
