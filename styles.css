@@ -961,7 +961,15 @@ body {
   .widget-row .calculator-section:last-child {
     grid-column: auto !important; /* stack; a pinned column 2 would overlap column 1 */
   }
-  
+
+  .input-group label {
+    white-space: normal; /* wrap; the GPU label is wider than a phone card */
+  }
+
+  .input-group label span {
+    white-space: nowrap;
+  }
+
   .gpu-details-layout {
     flex-direction: column;
     gap: 1rem;
