@@ -1,0 +1,10 @@
+{
+  "note": "Run from the repo root: node docs/screens/capture.mjs docs/screens/capture.json. The page has no dark mode, so the README's dark source is the same capture.",
+  "root": "../..",
+  "shots": [
+    {"out": "calculator.png", "url": "index.html", "scheme": "light", "height": 400, "scroll": ".calculator-section",
+     "before": "const s = document.getElementById('position'); s.value = 100; s.dispatchEvent(new Event('input', {bubbles: true})); s.dispatchEvent(new Event('change', {bubbles: true})); await new Promise(r => setTimeout(r, 300));"},
+    {"out": "checker.png", "url": "index.html", "scheme": "light", "height": 400, "scroll": ".widget-row .calculator-section:last-child",
+     "before": "const t = document.getElementById('syncToggle'); if (t.checked) t.click(); const n = document.getElementById('checkNumber'); n.value = '12200160415121876738'; n.dispatchEvent(new Event('input', {bubbles: true})); document.getElementById('checkBtn').click(); await new Promise(r => setTimeout(r, 300));"}
+  ]
+}

@@ -44,6 +44,14 @@ The receipt is
 
 ## How it works
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screens/calculator.png"/><img width="400" align="top" src="docs/screens/calculator.png" alt="Screenshot: the calculator at phone width with the slider at 100, showing F(100) = 354,224,848,179,261,915,075. Text version below."/></picture> <picture><source media="(prefers-color-scheme: dark)" srcset="docs/screens/checker.png"/><img width="400" align="top" src="docs/screens/checker.png" alt="Screenshot: the checker at phone width, showing 12,200,160,415,121,876,738 = F(93). Text version below."/></picture></p>
+
+The web app at phone width. Left, the slider at 100 shows F(100) =
+354,224,848,179,261,915,075, every digit exact. Right, the checker confirms
+12,200,160,415,121,876,738 is F(93), a value past 2^53 that a plain
+JavaScript Number cannot hold exactly. The page has no dark mode, so both
+themes show the same captures.
+
 - `fibonacci.js` is the core. It loads as a browser script and as a Node
   module, and every method returns a BigInt.
 - **Methods:** `iterative` (the default), `fastDoubling`, `memoized`

@@ -1,0 +1,5 @@
+Captured by capture.mjs from capture.json at 340 CSS px, scale 2.
+Chrome/154.0.8037.93, repo at 87cb37b; uncommitted: .gitignore, README.md.
+
+calculator.png: 680x800 px, 130 KB, smallest text 12 CSS px, light, index.html
+checker.png: 680x800 px, 122 KB, smallest text 14.4 CSS px, light, index.html
