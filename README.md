@@ -1,356 +1,111 @@
-# Fibonacci Calculator - Containerization Learning Project
+# Fibonacci Calculator
 
-![Version](https://img.shields.io/badge/version-v2025.09.10-green)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Docker](https://img.shields.io/badge/docker-ready-blue)
-![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue)
-![Free Tier](https://img.shields.io/badge/OCI_Free_Tier-Compatible-orange)
-![Local MacOS](https://img.shields.io/badge/MacOS_15.6.1-Compatible-blue)
+[![Test](https://github.com/frankbesch/fibonacci-calculator/actions/workflows/test.yml/badge.svg)](https://github.com/frankbesch/fibonacci-calculator/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**A standalone learning project for practicing Docker containerization and Kubernetes deployment.**
+Exact Fibonacci numbers at any position, in the browser and on the command
+line. Every result is a BigInt, so F(1000) comes back with all 209 digits.
+A plain JavaScript Number is exact only to 2^53 and reads F(79) one short.
+Four methods sit side by side, from the textbook recursion to fast
+doubling, with measured times.
 
-This simple Fibonacci calculator is designed for learning container orchestration on local MacOS (v15.6.1) and OCI cloud platforms. Perfect for hands-on practice with Docker, Kubernetes, and cloud deployments.
+Live: [frankbesch.github.io/fibonacci-calculator](https://frankbesch.github.io/fibonacci-calculator/)
 
-## 🎯 What This Project IS
+## Status
 
-✅ **Learning Tool** - Practice containerization and K8s deployment  
-✅ **Free Tier Compatible** - Runs on OCI Always Free (Object Storage)  
-✅ **Local-First** - Works on Docker Desktop for MacOS v15.6.1  
-✅ **CPU-Only** - Simple calculations, no GPU required  
-✅ **Cost Options** - Free (local/Object Storage) or ~$7-22/month (OKE)
+Version 2026.10.3. 11 tests pass on Node 22 and 24 (`npm test`), including
+exact F(79), F(100), and F(1000) against values computed independently in
+Python. No dependencies. The web app is static files on GitHub Pages; the
+CLI needs Node 22 or later.
 
-## ❌ What This Project is NOT
+## Measured results
 
-This is **NOT** related to:
-- NVIDIA NIM or GPU workloads
-- Production AI/ML platforms  
-- Enterprise inference deployments
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/methods-dark.svg"/><img width="400" align="top" src="docs/diagrams/methods-light.svg" alt="Diagram: four ways to compute F(n), with the cost of each. Text version below."/></picture> <picture><source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/times-dark.svg"/><img width="400" align="top" src="docs/diagrams/times-light.svg" alt="Chart: median time per call for three methods at F(10000) and F(1000). Text version below."/></picture></p>
 
-> **Note**: For production AI inference with NVIDIA NIM on OKE, see the separate [`nvidia-nim-oke`](../nvidia-nim-oke/) project.
+<details><summary>Text version of the diagrams</summary>
 
-## 🛠️ Technology Stack
+Four methods, all exact with BigInt. `recursive` adds F(n - 1) and F(n - 2)
+and recomputes both, about 2^n calls, so it runs only for small n.
+`iterative` walks up from F(0) and F(1) in n additions. `memoized` extends a
+shared table once, then looks values up. `fastDoubling` builds F(2k) and
+F(2k + 1) from F(k) and F(k + 1), in about log n steps.
 
-**Local Development:**
-- MacOS: v15.6.1
-- Docker Desktop: v4.28+ (with Kubernetes enabled)
-- kubectl: v1.33+
-- Browser: Chrome v120+, Safari v17+, or Firefox v120+
+Median time per call on an Apple M4, Node 26.8.1, 25 runs after 5 warm-up
+runs. F(10000): iterative 0.4738 ms, fastDoubling 0.0070 ms, memoized
+0.0001 ms. F(1000): iterative 0.0219 ms, fastDoubling 0.0014 ms, memoized
+0.0001 ms. At n = 30, recursive takes 21.7693 ms and iterative 0.0019 ms.
+memoized is timed after its table is built.
 
-**Cloud Deployment:**
-- OCI OKE (Oracle Kubernetes Engine): v1.33.1
-- Docker: v24+
-- Node.js: v18+ (for static server)
+</details>
 
-**Application:**
-- HTML5, CSS3 (Grid, Flexbox)
-- JavaScript (ES6+)
-- No external frameworks (vanilla JS)
+The receipt is
+[docs/runs/2026-10-03-methods.txt](docs/runs/2026-10-03-methods.txt), from
+`npm run bench`.
 
-## 🌟 Features
+## How it works
 
-- **Multiple Calculation Methods**: Iterative, Recursive, and Memorized implementations
-- **Web Interface**: Beautiful, modern web application with interactive UI
-- **Performance Comparison**: Built-in benchmarking across different algorithms
-- **Real-time Validation**: Check if numbers are Fibonacci numbers with instant feedback
-- **Mathematical Tools**: Fibonacci checking, sequence generation, and calculations
-- **Multiple Deployment Options**: Local MacOS, Docker, and cloud (OCI)
+- `fibonacci.js` is the core. It loads as a browser script and as a Node
+  module, and every method returns a BigInt.
+- **Methods:** `iterative` (the default), `fastDoubling`, `memoized`
+  (`memorized` still works), and `recursive`.
+- **Checks:** `isFibonacci(x)` tests whether 5x² + 4 or 5x² − 4 is a
+  perfect square, with an exact integer square root, so it works past 2^53.
+  `findPosition(x)` returns n or null.
+- **Also:** `sequence(count)`, `goldenRatio(n)` (finite for large n), and
+  `format(x)` for thousands separators.
+- `index.html` and `app.js` are the web app: a slider for F(n) up to 100
+  and a checker that takes any number of digits. No third-party requests.
+- `cli.js` is the command line, one-shot or interactive.
 
-## 🚀 Deployment Options
-
-**Recommended Learning Path**: Start with local deployment, then try cloud options.
-
-| Method | Cost | K8s Features | Best For | Guide |
-|--------|------|-------------|----------|-------|
-| **Local Docker Desktop** | Free | ✅ Full | Learning K8s | [LOCAL-K8S-GUIDE.md](LOCAL-K8S-GUIDE.md) |
-| **OCI Object Storage** | Free | ❌ None | Quick demo | [FREE-TIER-GUIDE.md](FREE-TIER-GUIDE.md) |
-| **OCI OKE** | ~$7-22/mo* | ✅ Full | Cloud practice | [QUICKSTART.md](QUICKSTART.md) |
-
-*OKE requires minimum 1 OCPU per node. Cost: ~$21.60/month (24/7) or ~$7.20/month (8hrs/day with auto-shutdown)
-
-### 1️⃣ Local MacOS Deployment (Recommended for Learning)
-
-**Perfect for**: Quick testing, development, local exploration
+## Quick start
 
 ```bash
-# Open index.html directly in your browser
-open index.html
+# Get the code. No install step.
+git clone https://github.com/\
+frankbesch/fibonacci-calculator.git
+cd fibonacci-calculator
 
-# Or use a simple HTTP server
-python3 -m http.server 8080
-# Then open http://localhost:8080
+# F(100), digits only.
+node cli.js 100
+
+# One command, then exit.
+node cli.js calc 1000 fast
+node cli.js check 12200160415121876738
+
+# The prompt; type "help".
+node cli.js
+
+# The tests.
+npm test
 ```
 
-📖 **Full Guide**: [`deployments/1-local/README.md`](deployments/1-local/README.md)
+Open `index.html` in a browser for the web app, or serve the folder with
+`deployments/1-local/run-local.sh`.
 
-### 2️⃣ Docker Deployment (Containerized)
-
-**Perfect for**: Consistent environments, easy distribution, local containerization
+## Measured run
 
 ```bash
-# Build the Docker image
-docker build -t fibonacci-app:v2025.09.10 .
-
-# Run the container
-docker run -d -p 8080:8080 --name fibonacci-app fibonacci-app:v2025.09.10
-
-# Open http://localhost:8080
+# Time every method on this machine.
+npm run bench
 ```
 
-📖 **Full Guide**: [`deployments/2-docker/README.md`](deployments/2-docker/README.md)
+It prints the Node version and CPU, then the median of 25 timed calls per
+method at n = 30, 1000, and 10000, and stops if any method disagrees with
+`iterative`. Times vary by machine; the receipt above is one run.
 
-### 3️⃣ Cloud Deployment (OCI/OKE)
+## Known gaps
 
-**Perfect for**: Production, high availability, cloud-native applications
+- `recursive` is exponential: the CLI caps it at n = 35 and the page at
+  n = 30.
+- The web app's GPU section shows modelled estimates, not measurements.
+- `memoized` keeps every value it has computed for the life of the process.
 
-#### Option A: Object Storage (FREE) ✅ **LIVE**
-```
-🌐 https://objectstorage.us-chicago-1.oraclecloud.com/n/<namespace>/b/fibonacci-app/o/index.html
-```
-- **Cost**: $0 (Always Free)
-- **Status**: ✅ Deployed and accessible
-- **Features**: Full web application functionality
+## More
 
-#### Option B: Kubernetes Engine (Pay-As-You-Go)
-```bash
-# Deploy to Oracle Kubernetes Engine
-cd deployments/3-oci-oke
-./deploy-to-oke.sh
+- [docs/runs/](docs/runs/): the timing receipt.
+- [deployments/1-local](deployments/1-local/README.md): run the page from a
+  local server.
 
-# Apply Kubernetes manifests
-kubectl apply -f k8s/
+## License
 
-# Get external IP
-kubectl get services
-```
-- **Cost**: ~$6-8/month (2 nodes × 0.5 OCPU × 1GB RAM)
-- **Status**: Setup script ready (requires PayGo upgrade)
-
-📖 **Full Guides**: 
-- [`deployments/3-oci-oke/README.md`](deployments/3-oci-oke/README.md)
-- [`PAYGO-SETUP-GUIDE.md`](PAYGO-SETUP-GUIDE.md)
-
-## 📁 Repository Structure
-
-```
-fibonacci-app/
-├── index.html              # Web application
-├── styles.css              # Modern UI styling
-├── app.js                  # Application logic & GPU estimates
-├── fibonacci.js            # Core Fibonacci algorithms
-├── cli.js                  # Command-line interface
-├── test.js                 # Comprehensive test suite
-├── package.json            # Project metadata
-├── Dockerfile              # Docker configuration
-├── server.js               # Node.js HTTP server for container
-├── .gitignore              # Git ignore rules
-├── README.md               # This file
-├── GITHUB-SETUP.md         # GitHub Actions setup guide
-├── PAYGO-SETUP-GUIDE.md    # Pay-As-You-Go upgrade guide
-├── .github/
-│   └── workflows/
-│       └── docker-build.yml    # CI/CD pipeline
-├── k8s/                    # Kubernetes manifests
-│   └── deployment.yaml     # K8s deployment & service
-├── scripts/                # Helper scripts
-│   ├── get-github-secrets.sh   # GitHub secrets extraction
-│   ├── create-minimal-cluster.sh  # Minimal cluster setup
-│   └── monitor-cluster.sh       # Cluster monitoring
-└── deployments/
-    ├── 1-local/            # Local deployment
-    │   ├── README.md
-    │   └── run-local.sh
-    ├── 2-docker/           # Docker deployment
-    │   ├── README.md
-    │   ├── docker-build.sh
-    │   └── docker-run.sh
-    └── 3-oci-oke/          # OCI/OKE deployment
-        ├── README.md
-        ├── Dockerfile
-        ├── deploy-to-oke.sh
-        └── k8s/
-            ├── deployment.yaml
-            ├── service.yaml
-            └── ingress.yaml
-```
-
-## 💻 Web Application Features
-
-### Calculate Fibonacci Numbers
-- Interactive slider (F₀ to F₉₃)
-- Real-time calculation using iterative method
-- Display as F(n) = value format
-
-### Check if Number is Fibonacci
-- Input any number to validate
-- Color-coded button feedback (green for Fibonacci, red for non-Fibonacci)
-- Shows position in sequence for Fibonacci numbers
-
-### GPU Acceleration Estimates
-- Theoretical GPU performance using NVIDIA Blackwell B200 architecture
-- Compares CPU vs GPU execution times
-- Shows speedup factors (e.g., 50-100x for parallel algorithms)
-- Confidence levels based on algorithm parallelization analysis
-- Detailed estimation methodology with cited sources
-
-### Algorithm Analysis
-- **Iterative**: O(n) time, O(1) space - Best for large numbers
-- **Recursive**: O(2^n) time, O(n) space - Educational purposes ⚠️ **Limited to n ≤ 30**
-- **Memorized**: O(n) time, O(n) space - Balanced performance
-
-### ⚠️ Performance Limitation: Recursive Algorithm
-
-The recursive implementation is **intentionally limited to n ≤ 30** to prevent browser freezing and ensure responsive user experience.
-
-**Why the limitation exists:**
-
-The recursive algorithm has **exponential time complexity O(2^n)**, which means the number of calculations doubles with each increment:
-
-| Position | Function Calls | Approximate Time |
-|----------|---------------|-----------------|
-| n = 20 | ~21,891 | ~2ms |
-| n = 30 | ~2,692,537 | ~165ms ✅ Safe |
-| n = 31 | ~4,356,617 | ~270ms ⚠️ Limit |
-| n = 35 | ~29,860,703 | ~3 seconds ❌ Slow |
-| n = 40 | ~331,160,281 | ~40 seconds ❌ Page locks |
-
-**Why it's inefficient:** The recursive method recalculates the same values thousands of times. For example, when calculating F(40), it computes F(2) over **63 million times**!
-
-**Recommended alternatives:**
-- **For n > 30**: Use Iterative (fastest) or Memorized (cached results)
-- **For learning recursion**: Keep n ≤ 30
-- **For production**: Always use Iterative for n > 40
-
-The Iterative and Memorized methods can easily handle **n = 93** (JavaScript's safe integer limit) in under 1ms.
-
-## 🧮 Core Functions
-
-The `FibonacciCalculator` class provides:
-
-### `iterative(n)`
-- **Time**: O(n) | **Space**: O(1)
-- Best for large numbers and performance-critical applications
-
-### `recursive(n)`
-- **Time**: O(2^n) | **Space**: O(n)
-- Best for small numbers (n ≤ 30) and educational purposes
-- ⚠️ **Limited to n ≤ 30** in web interface to prevent performance issues
-
-### `memorized(n, memo = {})`
-- **Time**: O(n) | **Space**: O(n)
-- Best for medium numbers with balanced performance
-
-### `sequence(n)`
-- Generate Fibonacci sequence with n terms
-
-### `isFibonacci(num)`
-- Check if a number is a Fibonacci number
-
-### `findPosition(num)`
-- Find the position of a Fibonacci number in the sequence
-
-### `goldenRatio(n)`
-- Calculate golden ratio approximation
-
-## 🧪 Testing
-
-```bash
-# Run comprehensive test suite
-node test.js
-```
-
-**Test Coverage:**
-- ✅ All calculation methods (iterative, recursive, memorized)
-- ✅ Edge cases (zero, negative, large numbers)
-- ✅ Fibonacci number detection
-- ✅ Sequence generation
-- ✅ Golden ratio calculations
-- ✅ Method consistency verification
-- ✅ Performance benchmarking
-
-## 📊 Performance Recommendations
-
-| Position | Recommended Method | Reason |
-|----------|-------------------|---------|
-| F₀ - F₂₀ | Any | All methods perform well |
-| F₂₁ - F₃₀ | Iterative or Memorized | Recursive starts slowing down |
-| F₃₁ - F₄₀ | Iterative or Memorized | Recursive disabled (too slow) |
-| F₄₁ - F₉₃ | Iterative only | Best performance |
-
-**Note:** The web interface automatically limits the Recursive method to n ≤ 30. For positions above 30, you'll see "N/A" with the note "Limited to n ≤ 30".
-
-## 🐳 Docker & CI/CD
-
-### Docker Image
-- **Base**: `node:18-alpine`
-- **Port**: 8080
-- **Size**: ~50MB (optimized Alpine image)
-
-### GitHub Actions CI/CD
-- **Automated Pipeline**: Build → Test → Push to OCIR → Deploy to OKE
-- **Triggers**: Push to main, tags, pull requests
-- **Features**: 
-  - Docker image building and testing
-  - Push to Oracle Container Registry (OCIR)
-  - Automated deployment to Oracle Kubernetes Engine (OKE)
-  - Deployment status reporting
-- **Setup**: Configure GitHub secrets using [`scripts/get-github-secrets.sh`](scripts/get-github-secrets.sh)
-- **Guide**: [`GITHUB-SETUP.md`](GITHUB-SETUP.md)
-
-## ☁️ Cloud Deployment (OCI/OKE)
-
-### Architecture
-- **Container Registry**: OCI Container Registry (OCIR)
-- **Orchestration**: Oracle Kubernetes Engine (OKE)
-- **Load Balancer**: OCI Load Balancer
-- **Networking**: OCI VCN with public/private subnets
-
-### Resource Specs
-- **CPU**: 100m request, 500m limit
-- **Memory**: 128Mi request, 512Mi limit
-- **Replicas**: 2 (high availability)
-
-## 🔬 GPU Acceleration Technology
-
-The application provides theoretical GPU acceleration estimates based on:
-
-- **Architecture**: NVIDIA Blackwell B200 specifications
-- **Analysis**: Algorithm parallelization potential
-- **Factors**: Memory bandwidth, compute intensity, overhead
-- **Confidence**: Based on real-world CUDA performance patterns
-
-**Sources**: NVIDIA architecture documentation, CUDA programming guides, GPU performance optimization research
-
-⚠️ **Note**: Estimates are theoretical and based on algorithm analysis. Actual performance varies based on implementation and hardware.
-
-## 🛠️ Technical Details
-
-### Browser Requirements
-- Modern browser with ES6+ support
-- JavaScript enabled
-- CSS Grid and Flexbox support
-
-### Node.js Requirements
-- Node.js 12+ for CLI and testing
-- No external dependencies required
-
-### Deployment Requirements
-- **Local**: Web browser or Python 3.x
-- **Docker**: Docker 20+ installed
-- **OCI/OKE**: OCI account, kubectl, OCI CLI
-
-## 🎯 Version History
-
-- **v2025.09.10**: Current version
-  - Three deployment configurations
-  - GPU acceleration estimates
-  - Enhanced UI with real-time validation
-  - CI/CD pipeline
-  - Clean repository structure
-
-## 📝 License
-
-This project is open source and available under the MIT License.
-
----
-
-**Built with ❤️ and curiosity by fsb** • **Version v2025.09.10**
+MIT. See [LICENSE](LICENSE).

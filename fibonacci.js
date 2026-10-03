@@ -1,139 +1,140 @@
 /**
- * Fibonacci Application - Core Functions
- * Provides multiple implementations of Fibonacci sequence calculation
+ * Fibonacci core: exact results at any position, using BigInt.
+ *
+ * JavaScript numbers are exact only up to 2^53, so F(79) and beyond come out
+ * wrong as Numbers (F(79) = 14472334024676221, not ...220). Every method here
+ * returns a BigInt. Positions are plain integers (a Number, a BigInt, or a
+ * digit string); values to test are Numbers, BigInts, or digit strings.
+ *
+ * Loads as a browser script (window.FibonacciCalculator) and as a Node module.
  */
+(function (root) {
+  'use strict';
 
-class FibonacciCalculator {
-  /**
-   * Calculate Fibonacci number using iterative approach
-   * Time Complexity: O(n) - Linear iteration from 0 to n
-   * Space Complexity: O(1) - Only two variables used
-   * Best for: Large numbers (n > 40), performance-critical applications
-   * 
-   * @param {number} n - Position in Fibonacci sequence
-   * @returns {number} Fibonacci number at position n
-   */
-  static iterative(n) {
-    if (n < 0) throw new Error('Fibonacci sequence is not defined for negative numbers');
-    if (n <= 1) return n;
-    
-    let a = 0, b = 1;
-    for (let i = 2; i <= n; i++) {
-      const temp = a + b;
-      a = b;
-      b = temp;
-    }
-    return b;
+  /** A position n >= 0 as a Number. Throws on anything else. */
+  function position(n) {
+    const v = typeof n === 'string' && /^\s*-?\d+\s*$/.test(n) ? Number(n) : typeof n === 'bigint' ? Number(n) : n;
+    if (typeof v !== 'number' || !Number.isInteger(v)) throw new Error('Position must be a whole number');
+    if (v < 0) throw new Error('Fibonacci sequence is not defined for negative numbers');
+    return v;
   }
 
-  /**
-   * Calculate Fibonacci number using recursive approach
-   * Time Complexity: O(2^n) - Exponential due to repeated calculations
-   * Space Complexity: O(n) - Call stack depth
-   * Best for: Small numbers (n ≤ 20), educational purposes, understanding recursion
-   * 
-   * @param {number} n - Position in Fibonacci sequence
-   * @returns {number} Fibonacci number at position n
-   */
-  static recursive(n) {
-    if (n < 0) throw new Error('Fibonacci sequence is not defined for negative numbers');
-    if (n <= 1) return n;
-    return this.recursive(n - 1) + this.recursive(n - 2);
-  }
-
-  /**
-   * Calculate Fibonacci number using memorized recursive approach
-   * Time Complexity: O(n) - Each value calculated once and cached
-   * Space Complexity: O(n) - Memoization cache + call stack
-   * Best for: Medium numbers (20 < n ≤ 40), balanced performance
-   * 
-   * @param {number} n - Position in Fibonacci sequence
-   * @param {Object} memo - Memoization cache (optional)
-   * @returns {number} Fibonacci number at position n
-   */
-  static memorized(n, memo = {}) {
-    if (n < 0) throw new Error('Fibonacci sequence is not defined for negative numbers');
-    if (n in memo) return memo[n];
-    if (n <= 1) return n;
-    
-    memo[n] = this.memorized(n - 1, memo) + this.memorized(n - 2, memo);
-    return memo[n];
-  }
-
-  /**
-   * Generate Fibonacci sequence up to n terms
-   * @param {number} n - Number of terms to generate
-   * @returns {Array} Array of Fibonacci numbers
-   */
-  static sequence(n) {
-    if (n < 0) throw new Error('Cannot generate negative number of terms');
-    if (n === 0) return [];
-    if (n === 1) return [0];
-    if (n === 2) return [0, 1];
-    
-    const sequence = [0, 1];
-    for (let i = 2; i < n; i++) {
-      sequence.push(sequence[i - 1] + sequence[i - 2]);
-    }
-    return sequence;
-  }
-
-  /**
-   * Check if a number is a Fibonacci number
-   * Uses mathematical property: A number n is Fibonacci if and only if
-   * one of (5n² + 4) or (5n² - 4) is a perfect square
-   * 
-   * @param {number} num - Number to check
-   * @returns {boolean} True if the number is in Fibonacci sequence
-   */
-  static isFibonacci(num) {
-    if (num < 0) return false;
-    
-    // A number is Fibonacci if and only if one of (5*n^2 + 4) or (5*n^2 - 4) is a perfect square
-    const check1 = 5 * num * num + 4;
-    const check2 = 5 * num * num - 4;
-    
-    return this.isPerfectSquare(check1) || this.isPerfectSquare(check2);
-  }
-
-  /**
-   * Helper function to check if a number is a perfect square
-   * @param {number} num - Number to check
-   * @returns {boolean} True if the number is a perfect square
-   */
-  static isPerfectSquare(num) {
-    const sqrt = Math.sqrt(num);
-    return Math.floor(sqrt) === sqrt;
-  }
-
-  /**
-   * Find the position of a Fibonacci number in the sequence
-   * @param {number} num - Fibonacci number to find position for
-   * @returns {number|null} Position in sequence or null if not found
-   */
-  static findPosition(num) {
-    if (!this.isFibonacci(num)) return null;
-    
-    let a = 0, b = 1, position = 0;
-    while (a <= num) {
-      if (a === num) return position;
-      const temp = a + b;
-      a = b;
-      b = temp;
-      position++;
-    }
+  /** A value as a BigInt, or null when it is not a whole number. */
+  function whole(x) {
+    if (typeof x === 'bigint') return x;
+    if (typeof x === 'number') return Number.isSafeInteger(x) ? BigInt(x) : null;
+    if (typeof x === 'string' && /^\s*-?\d+\s*$/.test(x)) return BigInt(x.trim());
     return null;
   }
 
-  // Golden ratio calculation removed as per UI simplification
-}
+  /** Integer square root of a BigInt >= 0 (Newton's method). */
+  function isqrt(v) {
+    if (v < 2n) return v;
+    let x = 1n << BigInt(Math.ceil(v.toString(2).length / 2));  // a start at or above the root
+    for (;;) {
+      const y = (x + v / x) >> 1n;
+      if (y >= x) return x;
+      x = y;
+    }
+  }
 
-// Export for Node.js environments
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = FibonacciCalculator;
-}
+  const cache = [0n, 1n];  // memoized values, shared across calls
 
-// Make available globally for browser environments
-if (typeof window !== 'undefined') {
-  window.FibonacciCalculator = FibonacciCalculator;
-}
+  class FibonacciCalculator {
+    /** O(n) additions, O(1) space. The default method. */
+    static iterative(n) {
+      const k = position(n);
+      let a = 0n, b = 1n;
+      for (let i = 0; i < k; i++) [a, b] = [b, a + b];
+      return a;
+    }
+
+    /** O(2^n) calls: the textbook definition, for small n only. */
+    static recursive(n) {
+      const k = position(n);
+      return k <= 1 ? BigInt(k) : FibonacciCalculator.recursive(k - 1) + FibonacciCalculator.recursive(k - 2);
+    }
+
+    /** O(n) once, then a lookup: extends a shared table, so no deep recursion. */
+    static memoized(n) {
+      const k = position(n);
+      while (cache.length <= k) cache.push(cache[cache.length - 1] + cache[cache.length - 2]);
+      return cache[k];
+    }
+
+    /** Old spelling, kept so existing callers still work. */
+    static memorized(n) {
+      return FibonacciCalculator.memoized(n);
+    }
+
+    /** O(log n) multiplications: F(2k) = F(k)(2F(k+1) - F(k)), F(2k+1) = F(k)^2 + F(k+1)^2. */
+    static fastDoubling(n) {
+      const k = position(n);
+      let a = 0n, b = 1n;  // F(m), F(m+1), walking the bits of k from the top
+      for (let bit = Math.floor(Math.log2(k || 1)); k > 0 && bit >= 0; bit--) {
+        const c = a * (2n * b - a);
+        const d = a * a + b * b;
+        if (Math.floor(k / 2 ** bit) % 2) [a, b] = [d, c + d];
+        else [a, b] = [c, d];
+      }
+      return a;
+    }
+
+    /** The first `count` terms, F(0) to F(count - 1). */
+    static sequence(count) {
+      const k = position(count);
+      const out = [];
+      let a = 0n, b = 1n;
+      for (let i = 0; i < k; i++) {
+        out.push(a);
+        [a, b] = [b, a + b];
+      }
+      return out;
+    }
+
+    /** True when x is a perfect square. */
+    static isPerfectSquare(x) {
+      const v = whole(x);
+      if (v === null || v < 0n) return false;
+      const r = isqrt(v);
+      return r * r === v;
+    }
+
+    /** True when x is a Fibonacci number: 5x^2 + 4 or 5x^2 - 4 is a perfect square. */
+    static isFibonacci(x) {
+      const v = whole(x);
+      if (v === null || v < 0n) return false;
+      const s = 5n * v * v;
+      return FibonacciCalculator.isPerfectSquare(s + 4n) || FibonacciCalculator.isPerfectSquare(s - 4n);
+    }
+
+    /** The position of x in the sequence, or null. 1 returns 1 (F(1) = F(2) = 1). */
+    static findPosition(x) {
+      if (!FibonacciCalculator.isFibonacci(x)) return null;
+      const v = whole(x);
+      let a = 0n, b = 1n, i = 0;
+      while (a < v) {
+        [a, b] = [b, a + b];
+        i++;
+      }
+      return a === v ? i : null;
+    }
+
+    /** F(n) / F(n - 1) as a Number, for n >= 2. Stays finite for large n. */
+    static goldenRatio(n) {
+      const k = position(n);
+      if (k < 2) throw new Error('Golden ratio needs a position of 2 or more');
+      const scale = 10n ** 15n;
+      const q = (FibonacciCalculator.iterative(k) * scale) / FibonacciCalculator.iterative(k - 1);
+      return Number(q) / 1e15;
+    }
+
+    /** A value with thousands separators, for display. */
+    static format(x) {
+      return BigInt(x).toLocaleString('en-US');
+    }
+  }
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = FibonacciCalculator;
+  if (root) root.FibonacciCalculator = FibonacciCalculator;
+})(typeof window !== 'undefined' ? window : null);

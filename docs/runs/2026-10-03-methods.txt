@@ -1,0 +1,13 @@
+date 2026-10-03
+node v26.8.1 · darwin arm64 · Apple M4
+median of 25 runs after 5 warm-up runs; times in ms
+n=30 recursive 21.7693
+n=30 iterative 0.0019
+n=30 fastDoubling 0.0006
+n=30 memoized 0.0001
+n=1000 iterative 0.0219
+n=1000 fastDoubling 0.0014
+n=1000 memoized 0.0001
+n=10000 iterative 0.4738
+n=10000 fastDoubling 0.0070
+n=10000 memoized 0.0001

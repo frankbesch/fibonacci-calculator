@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Fibonacci App v2025.09.10 - Local HTTP Server
+# Fibonacci App 2026.10.3 - Local HTTP Server
 # Simple script to run the app locally without containerization
 
-echo "🚀 Starting Fibonacci App v2025.09.10 locally..."
+echo "🚀 Starting Fibonacci App 2026.10.3 locally..."
 echo "📁 Project directory: $(pwd)"
 echo "🌐 Server will start on: http://localhost:8080"
 echo ""

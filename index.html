@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fibonacci Calculator</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
             <div class="header-content">
                 <h1 class="title">
-                    <i class="fas fa-calculator"></i>
-                    Fibonacci Calculator
+                                        Fibonacci Calculator
                 </h1>
                 <p class="subtitle">Explore the mathematical beauty of the Fibonacci sequence</p>
             </div>
@@ -27,7 +23,7 @@
             <!-- Single Number Calculator -->
             <section class="calculator-section">
                 <div class="section-header">
-                    <h2><i class="fas fa-hashtag"></i> Calculate Fibonacci Number</h2>
+                    <h2>Calculate Fibonacci Number</h2>
                 </div>
                 <div class="calculator-card">
                     <div class="input-group">
@@ -50,7 +46,7 @@
             <!-- Fibonacci Checker -->
             <section class="calculator-section">
                 <div class="section-header">
-                    <h2><i class="fas fa-search"></i> Check if Number is Fibonacci</h2>
+                    <h2>Check if Number is Fibonacci</h2>
                 </div>
                 <div class="calculator-card">
                     <div class="input-group">
@@ -59,7 +55,7 @@
                             <input type="number" id="checkNumber" placeholder="Enter a number" min="0" title="Enter any number to check if it's a Fibonacci number">
                             <span id="checkValue" class="value-display">Enter a number</span>
                             <button id="checkBtn" class="btn btn-gray" onclick="checkFibonacciNumber()">
-                                <i class="fas fa-check"></i> Check
+                                Check
                             </button>
                         </div>
                     </div>
@@ -78,7 +74,7 @@
             <div class="sync-control">
                 <input type="checkbox" id="syncToggle" checked>
                 <label for="syncToggle" title="When enabled, Calculate box updates Check box automatically">
-                    <i class="fas fa-link"></i> Sync boxes
+                    Sync boxes
                 </label>
             </div>
             </div>
@@ -88,13 +84,13 @@
             <!-- GPU Acceleration Estimate -->
             <section class="calculator-section full-width">
                 <div class="section-header">
-                    <h2><i class="fas fa-stopwatch"></i> GPU Acceleration Estimate</h2>
+                    <h2>GPU Acceleration Estimate</h2>
                 </div>
                 <div class="calculator-card">
                     <div class="input-group">
                         <label for="perfPosition">Fibonacci Sequence Calculation Time for F(<span id="perfPositionValue">10</span>):</label>
                         <button id="perfBtn" class="btn btn-info">
-                            <i class="fas fa-clock"></i> Compare Methods
+                            Compare Methods
                         </button>
                     </div>
                     <div id="perfResult" class="performance-display"></div>
@@ -102,14 +98,14 @@
                     <!-- GPU Estimation Info Panel -->
                     <div class="gpu-info-panel">
                         <button class="info-toggle expanded" onclick="toggleGPUInfo()">
-                            <i class="fas fa-info-circle"></i> GPU Estimation Details
-                            <i class="fas fa-chevron-down info-chevron"></i>
+                            GPU Estimation Details
+                            <span class="info-chevron" aria-hidden="true">▾</span>
                         </button>
                         <div class="info-content expanded" id="gpuInfoContent">
                             <div class="gpu-details-layout">
                                 <div class="gpu-details-left">
                                     <div class="info-section">
-                                        <h4><i class="fas fa-microchip"></i> GPU Acceleration Estimates</h4>
+                                        <h4>GPU Acceleration Estimates</h4>
                                         <ul>
                                             <li><strong>20,480 parallel cores</strong> - Theoretical GPU processing units</li>
                                             <li><strong>8 TB/s memory bandwidth</strong> - High-speed data access</li>
@@ -119,7 +115,7 @@
                                     </div>
                                     
                                     <div class="info-section">
-                                        <h4><i class="fas fa-balance-scale"></i> Estimation Methodology</h4>
+                                        <h4>Estimation Methodology</h4>
                                         <ul>
                                             <li><strong>Hardware-based calculations</strong> - Uses actual GPU specifications</li>
                                             <li><strong>Algorithm-specific analysis</strong> - Each method analyzed individually</li>
@@ -129,7 +125,7 @@
                                     </div>
                                     
                                     <div class="info-section sources">
-                                        <h4><i class="fas fa-book"></i> Sources</h4>
+                                        <h4>Sources</h4>
                                         <ul>
                                             <li><a href="https://www.nvidia.com/en-us/data-center/" target="_blank">NVIDIA Data Center GPU Architecture</a></li>
                                             <li><a href="https://docs.nvidia.com/cuda/" target="_blank">CUDA Programming Model & Parallel Computing</a></li>
@@ -148,7 +144,7 @@
                                 
                                 <div class="gpu-details-right">
                                     <div class="info-section algorithm-highlight">
-                                        <h4><i class="fas fa-rocket"></i> 🚀 GPU Speedup Benefits</h4>
+                                        <h4>🚀 GPU Speedup Benefits</h4>
                                         <div class="algorithm-stack">
                                             <div class="algorithm-card highlight-iterative">
                                                 <div class="algorithm-header">

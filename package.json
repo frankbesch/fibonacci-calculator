@@ -1,41 +1,42 @@
 {
   "name": "fibonacci-calculator",
-  "version": "2025.09.10",
-  "description": "A comprehensive Fibonacci sequence calculator with web interface, CLI, and multiple calculation methods",
+  "version": "2026.10.3",
+  "description": "Exact Fibonacci numbers at any position, with BigInt: a web app, a CLI, and four methods side by side.",
   "main": "fibonacci.js",
   "scripts": {
-    "start": "node cli.js",
-    "test": "node test.js",
-    "web": "open index.html",
-    "cli": "node cli.js"
+    "test": "node --test test.js",
+    "bench": "node bench.js",
+    "cli": "node cli.js",
+    "start": "node cli.js"
   },
   "keywords": [
     "fibonacci",
     "mathematics",
     "calculator",
     "sequence",
-    "golden-ratio",
     "cli",
     "web-app",
     "algorithm",
     "recursion",
     "iteration",
-    "memoization"
+    "memoization",
+    "bigint",
+    "golden-ratio"
   ],
-  "author": "Fibonacci Calculator Team",
+  "author": "Frank Besch",
   "license": "MIT",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=22"
   },
   "bin": {
     "fibonacci": "./cli.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/example/fibonacci-calculator.git"
+    "url": "https://github.com/frankbesch/fibonacci-calculator.git"
   },
   "bugs": {
-    "url": "https://github.com/example/fibonacci-calculator/issues"
+    "url": "https://github.com/frankbesch/fibonacci-calculator/issues"
   },
-  "homepage": "https://github.com/example/fibonacci-calculator#readme"
+  "homepage": "https://frankbesch.github.io/fibonacci-calculator/"
 }

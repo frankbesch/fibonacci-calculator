@@ -213,7 +213,7 @@ class FibonacciApp {
   loadExamples() {
     // Set some example values
     this.positionInput.placeholder = 'Try: 10, 20, or 30';
-    this.sequenceLengthInput.placeholder = 'Try: 10, 15, or 20';
+    if (this.sequenceLengthInput) this.sequenceLengthInput.placeholder = 'Try: 10, 15, or 20';
     this.checkNumberInput.placeholder = 'Try: 8, 13, or 21';
     if (this.graphTermsInput) this.graphTermsInput.placeholder = 'Try: 10, 15, or 20';
     // GPU section placeholder removed - controlled by main slider
@@ -285,13 +285,13 @@ class FibonacciApp {
         return;
       }
       
-      const number = parseInt(inputValue);
-      if (isNaN(number) || number < 0) {
-        console.log('Invalid input - setting gray');
+      const checked = this.validateFibonacciInput(inputValue);
+      if (!checked.valid) {
         this.setButtonColor(newButton, 'gray');
         this.setCheckResult('Invalid number');
         return;
       }
+      const number = checked.value;
       
       // Check if it's Fibonacci
       try {
@@ -302,11 +302,11 @@ class FibonacciApp {
           const position = FibonacciCalculator.findPosition(number);
           console.log('Setting button to GREEN');
           this.setButtonColor(newButton, 'green');
-          this.setCheckResult(`${number} = F(${position})`);
+          this.setCheckResult(`${FibonacciCalculator.format(number)} = F(${position})`);
         } else {
           console.log('Setting button to RED');
           this.setButtonColor(newButton, 'red');
-          this.setCheckResult(`${number} is not a Fibonacci number`);
+          this.setCheckResult(`${FibonacciCalculator.format(number)} is not a Fibonacci number`);
         }
       } catch (error) {
         console.error('Error checking Fibonacci:', error);
@@ -376,7 +376,7 @@ class FibonacciApp {
   }
 
   showError(element, message) {
-    element.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+    element.textContent = `⚠ ${message}`;
     element.className = 'result-display error';
   }
 
@@ -474,9 +474,10 @@ class FibonacciApp {
   }
 
   async checkFibonacci() {
-    const number = parseInt(this.checkNumberInput.value);
-    
-    if (isNaN(number) || number < 0) {
+    const checked = this.validateFibonacciInput(this.checkNumberInput.value);
+    const number = checked.value;
+
+    if (!checked.valid) {
       this.updateCheckResult('Invalid input', null, false);
       this.updateCheckButton(false);
       return;
@@ -525,8 +526,7 @@ class FibonacciApp {
   updateGraphFromData(data) {
     if (!Array.isArray(data) || data.length === 0) return;
     if (!this.graphCanvas) return;
-    console.log('Updating spiral with data:', data);
-    this.drawSpiral(data);
+    this.drawSpiral(data.map(Number));  // plot scale only; exact values stay BigInt
   }
 
   drawSpiral(sequence) {
@@ -852,14 +852,12 @@ class FibonacciApp {
   }
 
   validateFibonacciInput(value) {
-    const num = parseInt(value);
-    
-    if (isNaN(num)) return { valid: false, error: 'Not a number' };
-    if (num < 0) return { valid: false, error: 'Must be non-negative' };
-    if (num > Number.MAX_SAFE_INTEGER) return { valid: false, error: 'Number too large' };
-    if (value.includes('.')) return { valid: false, error: 'Must be whole number' };
-    
-    return { valid: true, value: num };
+    // Digits of any length, read exactly as a BigInt (parseInt loses digits past 2^53).
+    const v = String(value).trim().replace(/[,_\s]/g, '');
+    if (/^-\d/.test(v)) return { valid: false, error: 'Must be non-negative' };
+    if (/^\d*\.\d+$/.test(v)) return { valid: false, error: 'Must be whole number' };
+    if (!/^\d+$/.test(v)) return { valid: false, error: 'Not a number' };
+    return { valid: true, value: BigInt(v) };
   }
 
   updateSliderValue(elementId, value) {
@@ -877,8 +875,8 @@ class FibonacciApp {
     try {
       const element = document.getElementById('fibonacciValue');
       if (element) {
-        if (typeof value === 'number') {
-          element.textContent = value.toLocaleString();
+        if (typeof value === 'number' || typeof value === 'bigint') {
+          element.textContent = FibonacciCalculator.format(value);
         } else {
           element.textContent = value;
         }
@@ -892,7 +890,7 @@ class FibonacciApp {
     const element = document.getElementById('checkResult');
     if (element) {
       if (isFibonacci && position !== null) {
-        element.textContent = `${value.toLocaleString()} = F(${position})`;
+        element.textContent = `${FibonacciCalculator.format(value)} = F(${position})`;
         element.className = 'fibonacci-number check-success';
       } else if (value === 'Error') {
         element.textContent = 'Error';
@@ -904,7 +902,8 @@ class FibonacciApp {
         element.textContent = 'Enter a number';
         element.className = 'fibonacci-number';
       } else {
-        element.textContent = `${value.toLocaleString()} is not a Fibonacci number`;
+        element.textContent = typeof value === 'bigint' || typeof value === 'number'
+          ? `${FibonacciCalculator.format(value)} is not a Fibonacci number` : String(value);
         element.className = 'fibonacci-number check-error';
       }
     }
@@ -1174,13 +1173,14 @@ function checkFibonacciNumber() {
     return;
   }
   
-  const number = parseInt(inputValue);
-  if (isNaN(number) || number < 0) {
+  const digits = inputValue.replace(/[,_\s]/g, '');
+  if (!/^\d+$/.test(digits)) {
     button.style.backgroundColor = '#6b7280';
     button.style.color = 'white';
     result.textContent = 'Invalid number';
     return;
   }
+  const number = BigInt(digits);
   
   try {
     const isFibonacci = FibonacciCalculator.isFibonacci(number);
@@ -1190,11 +1190,11 @@ function checkFibonacciNumber() {
       const position = FibonacciCalculator.findPosition(number);
       button.style.backgroundColor = '#16a34a'; // Green
       button.style.color = 'white';
-      result.textContent = `${number} = F(${position})`;
+      result.textContent = `${FibonacciCalculator.format(number)} = F(${position})`;
     } else {
       button.style.backgroundColor = '#dc2626'; // Red
       button.style.color = 'white';
-      result.textContent = `${number} is not a Fibonacci number`;
+      result.textContent = `${FibonacciCalculator.format(number)} is not a Fibonacci number`;
     }
   } catch (error) {
     console.error('Error:', error);

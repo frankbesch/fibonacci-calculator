@@ -1,6 +1,6 @@
 # Local Deployment (Non-Containerized)
 
-**Version:** v2025.09.10  
+**Version:** 2026.10.3  
 **Type:** Local development and testing
 
 ## Prerequisites
@@ -65,6 +65,6 @@ npx http-server -p 8080
 
 ## Next Steps
 
-- For containerized deployment: See `../2-docker/README.md`
-- For cloud deployment: See `../3-oci-oke/README.md`
+- The live site is GitHub Pages: https://frankbesch.github.io/fibonacci-calculator/
+- The command line: `node cli.js 100`, or `node cli.js` for a prompt.
 
