@@ -1,6 +1,6 @@
 # Quick start
 
-The quick start is in the [README](README.md#quick-start). In short:
+The quick start is in the [README](../README.md#quick-start). In short:
 
 ```bash
 # F(100), digits only.
