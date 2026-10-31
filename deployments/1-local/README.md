@@ -20,9 +20,11 @@
 1. Navigate to the project root directory
 2. Run the local server script:
    ```bash
-   ./run-local.sh
+   ./deployments/1-local/run-local.sh
    ```
 3. Open your browser to `http://localhost:8080`
+
+The script requires Python 3 and binds only to `127.0.0.1`; it is not accessible from other computers.
 
 ## Manual HTTP Server Setup
 
@@ -33,10 +35,10 @@ If you prefer to run the server manually:
 cd /path/to/fibonacci-app
 
 # Start Python HTTP server
-python3 -m http.server 8080
+python3 -m http.server 8080 --bind 127.0.0.1
 
 # Or use Node.js if available
-npx http-server -p 8080
+npx http-server -p 8080 -a 127.0.0.1
 ```
 
 ## Features Available
