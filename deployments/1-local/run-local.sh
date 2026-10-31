@@ -21,17 +21,11 @@ if command -v python3 &> /dev/null; then
     echo "🔗 Open your browser to: http://localhost:8080"
     echo "⏹️  Press Ctrl+C to stop the server"
     echo ""
-    python3 -m http.server 8080
-elif command -v python &> /dev/null; then
-    echo "✅ Using Python HTTP server"
-    echo "🔗 Open your browser to: http://localhost:8080"
-    echo "⏹️  Press Ctrl+C to stop the server"
-    echo ""
-    python -m SimpleHTTPServer 8080
+    exec python3 -m http.server 8080 --bind 127.0.0.1
 else
-    echo "❌ Error: Python not found!"
+    echo "❌ Error: Python 3 not found!"
     echo "   Please install Python 3.x or use Node.js:"
-    echo "   npx http-server -p 8080"
+    echo "   npx http-server -p 8080 -a 127.0.0.1"
     exit 1
 fi
 
